@@ -1,9 +1,18 @@
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import { ArrowRight, Check } from 'lucide-react';
+import { motion, useScroll, useTransform, useReducedMotion } from 'framer-motion';
 
 export default function WaitlistCTA() {
   const [email, setEmail] = useState('');
   const [sent, setSent] = useState(false);
+
+  const sectionRef = useRef(null);
+  const reduce = useReducedMotion();
+  const { scrollYProgress } = useScroll({
+    target: sectionRef,
+    offset: ['start end', 'end start'],
+  });
+  const glowY = useTransform(scrollYProgress, [0, 1], [80, -120]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -15,12 +24,13 @@ export default function WaitlistCTA() {
   };
 
   return (
-    <section id="waitlist" className="px-5 py-24 sm:px-8 sm:py-32">
+    <section ref={sectionRef} id="waitlist" className="px-5 py-24 sm:px-8 sm:py-32">
       <div className="reveal relative mx-auto max-w-5xl overflow-hidden rounded-[2rem] bg-ink px-6 py-16 text-center sm:px-12 sm:py-24">
-        {/* soft accent glow */}
-        <div
+        {/* soft accent glow (parallax) */}
+        <motion.div
           aria-hidden="true"
-          className="pointer-events-none absolute -bottom-32 left-1/2 h-[360px] w-[640px] -translate-x-1/2 rounded-full bg-accent/25 blur-3xl"
+          style={{ x: '-50%', y: reduce ? undefined : glowY }}
+          className="pointer-events-none absolute -bottom-32 left-1/2 h-[360px] w-[640px] rounded-full bg-accent/25 blur-3xl"
         />
 
         <div className="relative">
