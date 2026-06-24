@@ -1,0 +1,117 @@
+@import 'tailwindcss';
+
+/* ── Insanjo design system ─────────────────────────────────────────────
+   Light editorial-minimal premium, on the Insanjo brand palette.
+   Brand: Insanjo Blue #044395 · Insanjo Cyan #05F1DB · Royal Blue #066FF2.
+   Cool near-white canvas, navy-black ink, blue accent + cyan highlight.
+   Fraunces (display serif) for headings · Inter for UI / body / buttons.
+*/
+@theme {
+  --font-sans: 'Inter', ui-sans-serif, system-ui, -apple-system, sans-serif;
+  --font-serif: 'Fraunces', ui-serif, Georgia, 'Times New Roman', serif;
+
+  --color-canvas: #f9fbfe;
+  --color-surface: #ffffff;
+  --color-ink: #0a1424;
+  --color-muted: #56627a;
+  --color-faint: #94a0b5;
+  --color-line: #e6ebf3;
+  --color-line-strong: #d3dbe8;
+
+  /* Brand */
+  --color-blue: #044395; /* Insanjo Blue */
+  --color-royal: #066ff2; /* Insanjo Royal Blue */
+  --color-cyan: #05f1db; /* Insanjo Cyan */
+
+  /* Semantic accent (maps to brand royal/blue) */
+  --color-accent: #066ff2;
+  --color-accent-ink: #044395;
+  --color-accent-soft: #e8f1ff;
+
+  /* Status */
+  --color-positive: #0f9d6b;
+  --color-positive-soft: #e3f7ee;
+  --color-warn: #e8a33d;
+  --color-warn-soft: #fdf3e3;
+
+  --radius-xl: 1.25rem;
+  --radius-2xl: 1.75rem;
+}
+
+/* Brand gradient (royal blue → cyan), matching the brand guide primary gradient */
+:root {
+  --gradient-brand: linear-gradient(100deg, #066ff2 0%, #05f1db 100%);
+}
+
+@layer base {
+  * {
+    border-color: var(--color-line);
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    margin: 0;
+    background-color: var(--color-canvas);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    font-feature-settings: 'cv11', 'ss01';
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  ::selection {
+    background: var(--color-accent);
+    color: #fff;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 3px;
+    border-radius: 4px;
+  }
+}
+
+@layer utilities {
+  .bg-brand-gradient {
+    background-image: var(--gradient-brand);
+  }
+  .text-brand-gradient {
+    background-image: var(--gradient-brand);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+  .border-gradient {
+    border-color: transparent;
+    background:
+      linear-gradient(var(--color-surface), var(--color-surface)) padding-box,
+      var(--gradient-brand) border-box;
+  }
+
+  /* Subtle reveal-on-scroll. Respects reduced-motion. */
+  .reveal {
+    opacity: 0;
+    transform: translateY(16px);
+    transition:
+      opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1),
+      transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .reveal.is-visible {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  .reveal {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+}
