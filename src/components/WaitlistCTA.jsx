@@ -25,16 +25,16 @@ export default function WaitlistCTA() {
 
   return (
     <section ref={sectionRef} id="waitlist" className="px-5 py-24 sm:px-8 sm:py-32">
-      <div className="reveal relative mx-auto max-w-5xl overflow-hidden rounded-[2rem] bg-ink px-6 py-16 text-center sm:px-12 sm:py-24">
+      <div className="reveal relative mx-auto max-w-5xl overflow-hidden rounded-4xl bg-[#0a1424] px-6 py-16 text-center sm:px-12 sm:py-24">
         {/* soft accent glow (parallax) */}
         <motion.div
           aria-hidden="true"
           style={{ x: '-50%', y: reduce ? undefined : glowY }}
-          className="pointer-events-none absolute -bottom-32 left-1/2 h-[360px] w-[640px] rounded-full bg-accent/25 blur-3xl"
+          className="pointer-events-none absolute -bottom-32 left-1/2 h-90 w-160 rounded-full bg-[#066ff2]/25 blur-3xl"
         />
 
         <div className="relative">
-          <h2 className="mx-auto max-w-2xl font-serif text-[clamp(2rem,4.5vw,3.25rem)] font-medium leading-[1.08] tracking-tight text-canvas">
+          <h2 className="mx-auto max-w-2xl font-serif text-[clamp(2rem,4.5vw,3.25rem)] font-medium leading-[1.08] tracking-tight text-white">
             Your business deserves{' '}
             <span className="italic text-white/70">better tools.</span>
           </h2>

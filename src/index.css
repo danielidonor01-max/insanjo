@@ -1,46 +1,77 @@
 @import 'tailwindcss';
 
-/* ── Insanjo design system ─────────────────────────────────────────────
-   Light editorial-minimal premium, on the Insanjo brand palette.
-   Brand: Insanjo Blue #044395 · Insanjo Cyan #05F1DB · Royal Blue #066FF2.
-   Cool near-white canvas, navy-black ink, blue accent + cyan highlight.
-   Fraunces (display serif) for headings · Inter for UI / body / buttons.
+/* Insanjo design system 
+   * Light editorial-minimal premium, on the Insanjo brand palette.
+   
+   *Fraunces (display serif) for headings · Inter for UI / body / buttons.
 */
 @theme {
-  --font-sans: 'Inter', ui-sans-serif, system-ui, -apple-system, sans-serif;
-  --font-serif: 'Fraunces', ui-serif, Georgia, 'Times New Roman', serif;
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-serif: "Fraunces", ui-serif, Georgia, serif;
 
-  --color-canvas: #f9fbfe;
-  --color-surface: #ffffff;
-  --color-ink: #0a1424;
-  --color-muted: #56627a;
-  --color-faint: #94a0b5;
-  --color-line: #e6ebf3;
-  --color-line-strong: #d3dbe8;
+  /* Semantic tokens */
+  --color-canvas: var(--canvas);
+  --color-surface: var(--surface);
+  --color-ink: var(--ink);
+  --color-muted: var(--muted);
+  --color-faint: var(--faint);
+  --color-line: var(--line);
+  --color-line-strong: var(--line-strong);
 
-  /* Brand */
-  --color-blue: #044395; /* Insanjo Blue */
-  --color-royal: #066ff2; /* Insanjo Royal Blue */
-  --color-cyan: #05f1db; /* Insanjo Cyan */
+  /* Brand never changes */
+  --color-blue: #044395;
+  --color-royal: #066ff2;
+  --color-cyan: #05f1db;
 
-  /* Semantic accent (maps to brand royal/blue) */
   --color-accent: #066ff2;
   --color-accent-ink: #044395;
-  --color-accent-soft: #e8f1ff;
-
-  /* Status */
-  --color-positive: #0f9d6b;
-  --color-positive-soft: #e3f7ee;
-  --color-warn: #e8a33d;
-  --color-warn-soft: #fdf3e3;
+  --color-accent-soft: var(--accent-soft);
 
   --radius-xl: 1.25rem;
   --radius-2xl: 1.75rem;
 }
 
-/* Brand gradient (royal blue → cyan), matching the brand guide primary gradient */
+
+/* Light mode palette */
 :root {
-  --gradient-brand: linear-gradient(100deg, #066ff2 0%, #05f1db 100%);
+  --canvas: #f9fbfe;
+  --surface: #ffffff;
+
+  --ink: #0a1424;
+  --muted: #56627a;
+  --faint: #94a0b5;
+
+  --line: #e6ebf3;
+  --line-strong: #d3dbe8;
+
+  --accent-soft: #e8f1ff;
+
+  --gradient-brand: linear-gradient(
+    100deg,
+    #066ff2 0%,
+    #05f1db 100%
+  );
+}
+
+/* Dark mode pallette */
+.dark {
+  --canvas: #071321;
+  --surface: #0d1b2a;
+
+  --ink: #f7f9fc;
+  --muted: #c2cedd;
+  --faint: #8897aa;
+
+  --line: #203347;
+  --line-strong: #2b425b;
+
+  --accent-soft: rgba(6,111,242,.15);
+
+  --gradient-brand: linear-gradient(
+    100deg,
+    #066ff2 0%,
+    #05f1db 100%
+  );
 }
 
 @layer base {

@@ -127,7 +127,7 @@ export default function ProductPreview() {
 
 function StatTile({ label, value, delta }) {
   return (
-    <div className="rounded-2xl bg-[linear-gradient(150deg,#f1f6fe,#eef9fb)] p-4 sm:p-5">
+    <div className="rounded-2xl bg-canvas p-4 sm:p-5">
       <p className="text-xs font-medium text-muted">{label}</p>
       <p className="mt-1.5 font-serif text-xl text-ink sm:text-2xl">{value}</p>
       <span className="mt-2.5 inline-flex items-center gap-1 rounded-full bg-positive-soft px-2 py-0.5 text-xs font-bold text-positive">

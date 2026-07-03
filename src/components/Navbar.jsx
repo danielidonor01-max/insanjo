@@ -1,6 +1,9 @@
-import { useEffect, useState } from 'react';
-import { Menu, X } from 'lucide-react';
-import Logo from './Logo';
+
+import { useEffect, useState } from "react";
+import { Menu, X, Moon, Sun } from "lucide-react";
+import Logo from "./Logo";
+import { useTheme } from "../hooks/useTheme";
+
 
 const LINKS = [
   { label: 'Features', href: '#features' },
@@ -12,6 +15,7 @@ const LINKS = [
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
+  const { isDark, toggleTheme } = useTheme();
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 12);
@@ -22,11 +26,10 @@ export default function Navbar() {
 
   return (
     <header
-      className={`fixed inset-x-0 top-0 z-50 transition-all duration-300 ${
-        scrolled
-          ? 'border-b border-line bg-canvas/80 backdrop-blur-xl'
-          : 'border-b border-transparent bg-transparent'
-      }`}
+      className={`fixed inset-x-0 top-0 z-50 transition-all duration-300 ${scrolled
+        ? 'border-b border-line bg-canvas/80 backdrop-blur-xl'
+        : 'border-b border-transparent bg-transparent'
+        }`}
     >
       <nav className="relative mx-auto flex h-16 max-w-7xl items-center justify-between px-5 sm:px-8">
         <Logo height={26} />
@@ -45,12 +48,23 @@ export default function Navbar() {
         </div>
 
         {/* Right CTA */}
-        <a
-          href="#waitlist"
-          className="hidden rounded-full bg-ink px-5 py-2.5 text-sm font-semibold text-canvas transition-colors duration-300 hover:bg-accent md:inline-flex"
-        >
-          Be The First
-        </a>
+        <div className="hidden items-center gap-3 md:flex">
+          <button
+            type="button"
+            onClick={toggleTheme}
+            aria-label="Toggle theme"
+            className="grid h-11 w-11 place-items-center rounded-full border border-line bg-surface text-ink transition-all duration-300 hover:bg-accent-soft hover:rotate-12"
+          >
+            {isDark ? <Sun size={18} /> : <Moon size={18} />}
+          </button>
+
+          <a
+            href="#waitlist"
+            className="rounded-full bg-ink px-5 py-2.5 text-sm font-semibold text-canvas transition-colors duration-300 hover:bg-accent"
+          >
+            Be The First
+          </a>
+        </div>
 
         <button
           type="button"
@@ -65,9 +79,8 @@ export default function Navbar() {
 
       {/* Mobile menu */}
       <div
-        className={`overflow-hidden border-line bg-canvas/95 backdrop-blur-xl md:hidden ${
-          open ? 'max-h-96 border-t' : 'max-h-0'
-        } transition-[max-height] duration-300 ease-out`}
+        className={`overflow-hidden border-line bg-canvas/95 backdrop-blur-xl md:hidden ${open ? 'max-h-96 border-t' : 'max-h-0'
+          } transition-[max-height] duration-300 ease-out`}
       >
         <div className="flex flex-col gap-1 px-5 py-4">
           {LINKS.map((l) => (
