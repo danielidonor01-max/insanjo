@@ -10,12 +10,12 @@ const STATS = [
 ];
 
 export default function Hero() {
-  useReducedMotion();
+  // useReducedMotion();
 
   return (
     <section
       id="top"
-      className="relative overflow-hidden bg-canvas  px-5 pt-32 sm:px-8 sm:pt-40"
+      className="relative overflow-hidden bg-canvas border-t border-red-300  px-5 pt-32 sm:px-8 sm:pt-40"
     >
       {/* soft accent glow */}
       <motion.div
