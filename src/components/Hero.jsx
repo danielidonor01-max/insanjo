@@ -27,7 +27,7 @@ export default function Hero() {
       <motion.div
         aria-hidden="true"
         style={{ x: '-50%', y: p(glowY) }}
-        className="pointer-events-none absolute -top-40 left-1/2 h-[420px] w-[720px] rounded-full bg-accent-soft blur-3xl"
+        className="pointer-events-none absolute -top-40 left-1/2 h-105 w-180 rounded-full bg-accent-soft blur-3xl"
       />
 
       <motion.div

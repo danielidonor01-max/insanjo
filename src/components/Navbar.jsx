@@ -66,15 +66,27 @@ export default function Navbar() {
           </a>
         </div>
 
-        <button
-          type="button"
-          className="grid h-10 w-10 place-items-center rounded-lg text-ink md:hidden"
-          aria-label={open ? 'Close menu' : 'Open menu'}
-          aria-expanded={open}
-          onClick={() => setOpen((v) => !v)}
-        >
-          {open ? <X size={22} /> : <Menu size={22} />}
-        </button>
+        <div className="flex items-center gap-2 md:hidden">
+           <button
+              type="button"
+              onClick={toggleTheme}
+              aria-label="Toggle theme"
+              className="grid h-11 w-11 place-items-center rounded-full border border-line bg-surface text-ink transition-all duration-300 hover:bg-accent-soft hover:rotate-12"
+            >
+              {isDark ? <Sun size={18} /> : <Moon size={18} />}
+            </button>
+            
+          <button
+            type="button"
+            className="grid h-10 w-10 place-items-center rounded-lg text-ink md:hidden"
+            aria-label={open ? 'Close menu' : 'Open menu'}
+            aria-expanded={open}
+            onClick={() => setOpen((v) => !v)}
+          >
+            {open ? <X size={22} /> : <Menu size={22} />}
+          </button>
+         
+        </div>
       </nav>
 
       {/* Mobile menu */}

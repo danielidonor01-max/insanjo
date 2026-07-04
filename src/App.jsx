@@ -20,7 +20,7 @@ export default function App() {
         Skip to content
       </a>
       <Navbar />
-      <main>
+      <main className = "bg-canvas">
         <Hero />
         <Features />
         <HowItWorks />
