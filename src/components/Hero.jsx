@@ -22,7 +22,7 @@ export default function Hero() {
   const p = (motionValue) => (reduce ? undefined : motionValue);
 
   return (
-    <section id="top" className="relative overflow-hidden px-5 pt-32 sm:px-8 sm:pt-40">
+    <section id="top" className="relative overflow-hidden bg-canvas px-5 pt-32 sm:px-8 sm:pt-40">
       {/* soft accent glow, top-center (parallax) */}
       <motion.div
         aria-hidden="true"
