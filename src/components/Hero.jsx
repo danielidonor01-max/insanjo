@@ -50,7 +50,7 @@ export default function Hero() {
           <span className="italic text-accent-ink">African businesses</span>
         </h1>
 
-        <p className="reveal mx-auto mt-6 max-w-xl text-md leading-relaxed text-muted">
+        <p className="reveal mx-auto mt-6 max-w-xl text-md md:text-lg leading-relaxed text-muted">
           One platform to manage sales, track inventory, run your team, and get
           discovered by customers.
         </p>
