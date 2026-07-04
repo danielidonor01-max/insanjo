@@ -44,7 +44,7 @@
   --line: #e6ebf3;
   --line-strong: #d3dbe8;
 
-  --accent-soft: #e8f1ff;
+  --accent-soft: rgba(6,111,242,.10);
 
   --gradient-brand: linear-gradient(
     100deg,

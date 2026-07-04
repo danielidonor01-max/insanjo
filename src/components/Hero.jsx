@@ -1,5 +1,5 @@
 import { ArrowRight } from 'lucide-react';
-import { motion, useReducedMotion } from 'framer-motion';
+import { motion, useScroll, useTransform, useReducedMotion } from 'framer-motion';
 import ProductPreview from './ProductPreview';
 import Counter from './Counter';
 
@@ -10,20 +10,30 @@ const STATS = [
 ];
 
 export default function Hero() {
-  // useReducedMotion();
+  const reduce = useReducedMotion();
+  const { scrollY } = useScroll();
+
+  // Parallax: layers drift at different rates as the hero scrolls away.
+  const glowY = useTransform(scrollY, [0, 800], [0, 160]);
+  const textY = useTransform(scrollY, [0, 600], [0, -60]);
+  const textOpacity = useTransform(scrollY, [0, 480], [1, 0.55]);
+  const previewY = useTransform(scrollY, [0, 700], [0, -90]);
+
+  const p = (motionValue) => (reduce ? undefined : motionValue);
 
   return (
-    <section
-      id="top"
-      className="relative overflow-hidden bg-canvas border-t border-red-300  px-5 pt-32 sm:px-8 sm:pt-40"
-    >
-      {/* soft accent glow */}
+    <section id="top" className="relative overflow-hidden bg-canvas px-5 pt-32 sm:px-8 sm:pt-40">
+      {/* soft accent glow, top-center (parallax) */}
       <motion.div
         aria-hidden="true"
-        className="pointer-events-none absolute -top-40 left-1/2 h-105 w-180 -translate-x-1/2 rounded-full bg-accent-soft blur-3xl"
+        style={{ x: '-50%', y: p(glowY) }}
+        className="pointer-events-none absolute -top-40 left-1/2 h-105 w-180 rounded-full bg-accent-soft blur-3xl"
       />
 
-      <div className="relative mx-auto max-w-4xl text-center">
+      <motion.div
+        style={{ y: p(textY), opacity: p(textOpacity) }}
+        className="relative mx-auto max-w-4xl text-center"
+      >
         <a
           href="#waitlist"
           className="reveal inline-flex items-center gap-2 rounded-full border border-line bg-surface px-3.5 py-1.5 text-xs font-medium text-muted transition-colors hover:text-ink"
@@ -51,12 +61,8 @@ export default function Hero() {
             className="group inline-flex w-full items-center justify-center gap-2 rounded-full bg-ink px-7 py-3.5 text-sm font-semibold text-canvas transition-all duration-300 hover:bg-accent sm:w-auto"
           >
             Join Now
-            <ArrowRight
-              size={16}
-              className="transition-transform duration-300 group-hover:translate-x-1"
-            />
+            <ArrowRight size={16} className="transition-transform duration-300 group-hover:translate-x-1" />
           </a>
-
           <a
             href="#how"
             className="inline-flex w-full items-center justify-center rounded-full border border-line-strong bg-surface px-7 py-3.5 text-sm font-semibold text-ink transition-colors hover:border-ink sm:w-auto"
@@ -64,12 +70,15 @@ export default function Hero() {
             See how it works
           </a>
         </div>
-      </div>
+      </motion.div>
 
-      {/* Product preview */}
-      <div className="relative mx-auto mt-14 max-w-2xl sm:mt-16">
+      {/* Product preview (parallax) */}
+      <motion.div
+        style={{ y: p(previewY) }}
+        className="relative mx-auto mt-14 max-w-2xl sm:mt-16"
+      >
         <ProductPreview />
-      </div>
+      </motion.div>
 
       {/* Stats */}
       <div className="mx-auto mt-16 max-w-4xl border-t border-line sm:mt-20">
