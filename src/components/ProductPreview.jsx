@@ -85,13 +85,13 @@ export default function ProductPreview() {
         whileInView={{ opacity: 1, x: 0, y: 0 }}
         viewport={{ once: true }}
         transition={{ duration: 0.7, delay: 0.5, ease: EASE }}
-        className="absolute -left-3 top-16 z-20 hidden md:block lg:-left-10"
+        className="absolute -left-3 top-24 z-20 hidden md:block lg:-left-54"
       >
         <motion.div
           animate={float(-9)}
           className="flex items-center gap-2.5 rounded-lg border border-line bg-surface/95 px-3.5 py-2.5 shadow-[0_18px_40px_-22px_rgba(4,67,149,0.4)] backdrop-blur"
         >
-          <span className="grid h-8 w-8 shrink-0 place-items-center rounded-md bg-positive-soft text-positive">
+          <span className="grid h-10 w-10 shrink-0 bg-green-300/30 text-green-500 place-items-center rounded-md bg-positive-soft text-positive">
             <Check size={17} strokeWidth={3} />
           </span>
           <div>
@@ -107,13 +107,13 @@ export default function ProductPreview() {
         whileInView={{ opacity: 1, x: 0, y: 0 }}
         viewport={{ once: true }}
         transition={{ duration: 0.7, delay: 0.7, ease: EASE }}
-        className="absolute -right-3 bottom-12 z-20 hidden md:block lg:-right-10"
+        className="absolute -right-3 bottom-28 z-20 hidden md:block lg:-right-20"
       >
         <motion.div
           animate={float(9)}
           className="flex items-center gap-2.5 rounded-lg border border-line bg-surface/95 px-3.5 py-2.5 shadow-[0_18px_40px_-22px_rgba(4,67,149,0.4)] backdrop-blur"
         >
-          <span className="grid h-8 w-8 shrink-0 place-items-center rounded-md bg-warn-soft text-warn">
+          <span className="grid h-10 w-10 bg-orange-300/30 text-orange-500 shrink-0 place-items-center rounded-md bg-warn-soft text-warn">
             <Bell size={16} strokeWidth={2.25} />
           </span>
           <div>
