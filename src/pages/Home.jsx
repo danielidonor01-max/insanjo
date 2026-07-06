@@ -9,12 +9,17 @@ import WaitlistCTA from '../components/home/WaitlistCTA';
 import Footer from '../components/Footer';
 import Navbar from '../components/Navbar';
 import Hero from '../components/home/Hero';
+import SEO from '../components/SEO';
 
 export default function App() {
   useScrollReveal();
 
   return (
     <>
+      <SEO
+        title="Insanjo | Smart Business Management for African Vendors"
+        description="Manage sales, inventory, bookkeeping, customers and business analytics in one powerful platform built for African vendors."
+      />
       <a
         href="#features"
         className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-100 focus:rounded-lg focus:bg-ink focus:px-4 focus:py-2 focus:text-sm focus:text-canvas"
@@ -22,7 +27,7 @@ export default function App() {
         Skip to content
       </a>
       <Navbar />
-      <main className = "bg-canvas">
+      <main className="bg-canvas">
         <Hero />
         <Features />
         <HowItWorks />
