@@ -55,7 +55,7 @@ export default function Footer() {
             href="mailto:info@insanjo.com"
             className="text-sm font-medium text-muted transition-colors hover:text-ink"
           >
-            info@insanjo.com
+            hello@insanjo.com
           </a>
         </div>
       </div>

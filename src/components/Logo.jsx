@@ -1,3 +1,5 @@
+import { useTheme } from "../hooks/useTheme";
+
 /** Insanjo icon mark (official asset). */
 export function InsanjoMark({ size = 32, className = '' }) {
   return (
@@ -14,6 +16,26 @@ export function InsanjoMark({ size = 32, className = '' }) {
 
 /** Full Insanjo wordmark + mark (official asset). */
 export default function Logo({ className = '', height = 28 }) {
+  const { isDark} = useTheme()
+
+  if(isDark){
+    return (
+      <a
+        href="#top"
+        className={`inline-flex items-center ${className}`}
+        aria-label="Insanjo home"
+      >
+        <img
+          src="/insanjo-white.svg"
+          alt="Insanjo"
+          height={height}
+          style={{ height }}
+          className="w-auto"
+        />
+      </a>
+    );
+  }
+
   return (
     <a
       href="#top"
