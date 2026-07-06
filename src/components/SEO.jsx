@@ -5,7 +5,7 @@ import { Helmet } from "react-helmet-async";
 export default function SEO({
     title,
     description,
-    image = "https://insanjo.com/images/logoBox.png",
+    image = "https://insanjo.com/logo.png",
     url = "https://insanjo.com",
 }) {
     return (
