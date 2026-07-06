@@ -1,6 +1,7 @@
 import { motion, useReducedMotion } from 'framer-motion';
 import { TrendingUp, Check, Bell, Boxes } from 'lucide-react';
 import { InsanjoMark } from './Logo';
+import { useTheme } from '../hooks/useTheme';
 
 const EASE = [0.22, 1, 0.36, 1];
 
@@ -19,9 +20,9 @@ export default function ProductPreview() {
         whileInView={{ opacity: 1, y: 0, scale: 1 }}
         viewport={{ once: true, amount: 0.3 }}
         transition={{ duration: 0.8, ease: EASE }}
-        className="relative z-10 overflow-hidden rounded-3xl border border-line bg-surface shadow-[0_2px_4px_rgba(10,20,36,0.04),0_36px_72px_-34px_rgba(4,67,149,0.26)]"
+        className="relative z-10 overflow-hidden rounded-xl border border-line bg-surface shadow-[0_2px_4px_rgba(10,20,36,0.04),0_36px_72px_-34px_rgba(4,67,149,0.26)]"
       >
-        <div className="p-5 sm:p-6">
+        <div className="p-5 sm:p-6 sm:px-10 ">
           {/* Header */}
           <div className="flex items-center justify-between gap-4">
             <div className="flex items-center gap-3">
@@ -31,9 +32,9 @@ export default function ProductPreview() {
                 <p className="text-sm text-faint">Hardware &amp; Building Co.</p>
               </div>
             </div>
-            <div className="hidden items-center rounded-full bg-canvas p-1 text-xs font-semibold sm:flex">
+            <div className="hidden items-center rounded-lg bg-accent-soft p-1 text-xs font-medium sm:flex">
               <span className="rounded-full px-3 py-1.5 text-faint">Day</span>
-              <span className="rounded-full bg-surface px-3 py-1.5 text-accent-ink shadow-sm">Week</span>
+              <span className="rounded-md font-semibold bg-surface px-3 py-1.5 text-accent-ink shadow-sm">Week</span>
               <span className="rounded-full px-3 py-1.5 text-faint">Month</span>
             </div>
           </div>
@@ -54,7 +55,7 @@ export default function ProductPreview() {
               <span>In stock</span>
             </div>
             <div className="mt-3 flex items-center gap-3">
-              <span className="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-accent-soft text-accent-ink">
+              <span className="grid h-10 w-10 shrink-0 place-items-center rounded bg-accent-soft text-accent-ink">
                 <Boxes size={18} strokeWidth={1.75} />
               </span>
               <div className="min-w-0 flex-1">
@@ -64,14 +65,14 @@ export default function ProductPreview() {
               <div className="flex items-center gap-3">
                 <div className="hidden h-1.5 w-24 overflow-hidden rounded-full bg-line sm:block">
                   <motion.div
-                    className="h-full rounded-full bg-brand-gradient"
+                    className="h-full rounded-full bg-accent-ink"
                     initial={{ width: 0 }}
                     whileInView={{ width: '64%' }}
                     viewport={{ once: true }}
                     transition={{ duration: 1, delay: 0.6, ease: EASE }}
                   />
                 </div>
-                <span className="font-serif text-lg text-ink tabular-nums">20</span>
+                <span className=" font-bold text-accent-ink tabular-nums">20</span>
               </div>
             </div>
           </div>
@@ -127,10 +128,10 @@ export default function ProductPreview() {
 
 function StatTile({ label, value, delta }) {
   return (
-    <div className="rounded-2xl bg-canvas p-4 sm:p-5">
+    <div className="rounded-md border-[0.5px] bg-linear-90 from-canvas to-accent-soft p-4 sm:p-5">
       <p className="text-xs font-medium text-muted">{label}</p>
-      <p className="mt-1.5 font-serif text-xl text-ink sm:text-2xl">{value}</p>
-      <span className="mt-2.5 inline-flex items-center gap-1 rounded-full bg-positive-soft px-2 py-0.5 text-xs font-bold text-positive">
+      <p className="mt-1.5 font-semibold text-xl text-ink sm:text-xl">{value}</p>
+      <span className="mt-2.5 bg-green-300/30 text-green-500 inline-flex items-center gap-1 rounded bg-positive-soft px-2 py-2  text-xs font-bold text-positive">
         <TrendingUp size={12} strokeWidth={2.5} />
         {delta}
       </span>
@@ -139,6 +140,7 @@ function StatTile({ label, value, delta }) {
 }
 
 function Chart({ reduce }) {
+  const { isDark } = useTheme();
   const line =
     'M0,150 C60,120 110,118 170,140 C230,160 270,150 330,126 C390,104 450,96 510,70 C545,58 575,50 600,44';
   const area = `${line} L600,200 L0,200 Z`;
@@ -153,14 +155,14 @@ function Chart({ reduce }) {
             <stop offset="100%" stopColor="#05F1DB" />
           </linearGradient>
           <linearGradient id="areaGrad" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0%" stopColor="#05F1DB" stopOpacity="0.22" />
+            <stop offset="0%" stopColor="#2671AC" stopOpacity=".9" />
             <stop offset="100%" stopColor="#05F1DB" stopOpacity="0" />
           </linearGradient>
         </defs>
 
         {/* gridlines */}
         {[50, 100, 150].map((y) => (
-          <line key={y} x1="0" y1={y} x2="600" y2={y} stroke="#eef1f6" strokeWidth="1" />
+          <line key={y} x1="0" y1={y} x2="600" y2={y} stroke={isDark ? "#eef1f640" : "#eef1f6"} strokeWidth="1" />
         ))}
 
         <motion.path
