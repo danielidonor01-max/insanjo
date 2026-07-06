@@ -1,7 +1,7 @@
 import { ArrowRight } from 'lucide-react';
 import { motion, useScroll, useTransform, useReducedMotion } from 'framer-motion';
 import ProductPreview from './ProductPreview';
-import Counter from './Counter';
+import Counter from '../Counter';
 
 const STATS = [
   { value: 2, suffix: '', label: 'User types', sub: 'Vendors & Customers' },

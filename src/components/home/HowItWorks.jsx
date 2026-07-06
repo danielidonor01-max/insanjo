@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import SectionHeading from './SectionHeading';
+import SectionHeading from '../SectionHeading';
 
 const STEPS = [
   { n: '01', title: 'Create business profile', desc: 'Set up your store in a couple of taps.' },

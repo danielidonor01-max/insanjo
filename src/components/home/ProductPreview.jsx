@@ -1,7 +1,7 @@
 import { motion, useReducedMotion } from 'framer-motion';
 import { TrendingUp, Check, Bell, Boxes } from 'lucide-react';
-import { InsanjoMark } from './Logo';
-import { useTheme } from '../hooks/useTheme';
+import { InsanjoMark } from '../Logo';
+import { useTheme } from '../../hooks/useTheme';
 
 const EASE = [0.22, 1, 0.36, 1];
 

@@ -1,5 +1,5 @@
 import { Check } from 'lucide-react';
-import SectionHeading from './SectionHeading';
+import SectionHeading from '../SectionHeading';
 
 const BUSINESSES = [
   'Retail shops',

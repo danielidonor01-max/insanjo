@@ -6,7 +6,7 @@ import {
   Bell,
   LineChart,
 } from 'lucide-react';
-import SectionHeading from './SectionHeading';
+import SectionHeading from '../SectionHeading';
 
 const FEATURES = [
   {

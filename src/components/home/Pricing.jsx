@@ -1,5 +1,5 @@
 import { Check, ArrowRight } from 'lucide-react';
-import SectionHeading from './SectionHeading';
+import SectionHeading from '../SectionHeading';
 
 const FREE = [
   'Real-time sales tracking',
