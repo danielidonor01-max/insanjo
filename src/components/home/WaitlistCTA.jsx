@@ -103,7 +103,7 @@ export default function WaitlistCTA() {
               value={form.name}
               onChange={handleChange}
               placeholder="Your name"
-              className="w-full rounded-full border border-white/15 bg-white/5 px-5 py-3.5 text-sm text-canvas placeholder:text-white/40 focus:border-accent focus:outline-none"
+              className="w-full rounded-full border border-white/15 bg-white/5 px-5 py-3.5 text-sm text-white placeholder:text-white/40 focus:border-accent focus:outline-none"
             />
 
             <input
@@ -113,7 +113,7 @@ export default function WaitlistCTA() {
               value={form.email}
               onChange={handleChange}
               placeholder="you@business.com"
-              className="w-full rounded-full border border-white/15 bg-white/5 px-5 py-3.5 text-sm text-canvas placeholder:text-white/40 focus:border-accent focus:outline-none"
+              className="w-full rounded-full border border-white/15 bg-white/5 px-5 py-3.5 text-sm text-white placeholder:text-white/40 focus:border-accent focus:outline-none"
             />
 
             <button
