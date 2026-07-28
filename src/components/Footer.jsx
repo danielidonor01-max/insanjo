@@ -52,7 +52,7 @@ export default function Footer() {
         <div className="mt-10 flex flex-col items-start justify-between gap-3 border-t border-line pt-6 sm:flex-row sm:items-center">
           <p className="text-sm text-faint">© 2026 Lechi-Tech. All rights reserved.</p>
           <a
-            href="mailto:info@insanjo.com"
+            href="mailto:hello@insanjo.com"
             className="text-sm font-medium text-muted transition-colors hover:text-ink"
           >
             hello@insanjo.com
