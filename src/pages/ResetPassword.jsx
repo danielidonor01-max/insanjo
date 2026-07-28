@@ -230,7 +230,7 @@ export default function ResetPassword() {
               Reset your password<br />the fun way
             </h2>
             <p className="mt-4 max-w-sm text-sm leading-relaxed text-white/70">
-              Don't worry — vendors and customers make mistakes. Pick something
+              Don't worry vendors and customers make mistakes. Pick something
               you'll actually remember (or let us save it for you).
             </p>
 
