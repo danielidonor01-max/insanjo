@@ -1,26 +1,21 @@
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import {
   ArrowLeft,
-  Heart,
   Phone,
   Navigation,
-  Clock,
   MapPin,
   Search,
   X,
   ChevronRight,
-  Star,
   ExternalLink,
-  Loader2,
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import SEO from "../components/SEO";
-import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import Loader from "../components/customer/Loader";
 import ProductCard from "../components/customer/ProductCard";
-import { getStoreDetails, markFavorite, deleteFavorite } from "../services/store";
+import { getStoreDetails } from "../services/store";
 
 /* ───────────────────────────────────────────
    Helpers
@@ -73,7 +68,11 @@ const containerVariants = {
 
 const itemVariants = {
   hidden: { opacity: 0, y: 20 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.5, ease: [0.22, 1, 0.36, 1] } },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.5, ease: [0.22, 1, 0.36, 1] },
+  },
 };
 
 const modalBackdrop = {
@@ -83,7 +82,10 @@ const modalBackdrop = {
 
 const modalPanel = {
   hidden: { x: "100%" },
-  visible: { x: 0, transition: { type: "spring", damping: 28, stiffness: 260 } },
+  visible: {
+    x: 0,
+    transition: { type: "spring", damping: 28, stiffness: 260 },
+  },
   exit: { x: "100%", transition: { duration: 0.25, ease: "easeIn" } },
 };
 
@@ -98,8 +100,6 @@ export default function PublicStore() {
   const [details, setDetails] = useState(null);
   const [inventory, setInventory] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [favorite, setFavorite] = useState(false);
-  const [favLoading, setFavLoading] = useState(false);
   const [seeAllOpen, setSeeAllOpen] = useState(false);
   const [searchValue, setSearchValue] = useState("");
   const [mapOpen, setMapOpen] = useState(false);
@@ -125,7 +125,6 @@ export default function PublicStore() {
     if (success) {
       setDetails(data.business);
       setInventory(data.inventory || []);
-      setFavorite(data.business?.isFavorited ?? false);
     }
     setLoading(false);
   }, [storeId]);
@@ -133,20 +132,6 @@ export default function PublicStore() {
   useEffect(() => {
     fetchStore();
   }, [fetchStore]);
-
-  // ── Favorite toggle ────────────────────────
-  const handleFavorite = async () => {
-    if (!details || !storeId || favLoading) return;
-    setFavLoading(true);
-    if (!favorite) {
-      const { success } = await markFavorite(storeId, "store");
-      if (success) setFavorite(true);
-    } else {
-      const { success } = await deleteFavorite(storeId, "store");
-      if (success) setFavorite(false);
-    }
-    setFavLoading(false);
-  };
 
   // ── Image rotation ─────────────────────────
   useEffect(() => {
@@ -161,24 +146,32 @@ export default function PublicStore() {
   if (!storeId) {
     return (
       <>
-        <SEO title="Store | Insanjo" description="Browse products from Insanjo vendors." />
-        <Navbar />
-        <main className="min-h-screen bg-canvas pt-24">
-          <div className="mx-auto max-w-7xl px-5 py-16 sm:px-8">
+        <SEO
+          title="Store | Insanjo"
+          description="Browse products from Insanjo vendors."
+        />
+        <main className="min-h-screen bg-canvas">
+          <div className="mx-auto max-w-7xl px-5 py-24 sm:px-8">
             <Link
               to="/"
               className="group mb-8 inline-flex items-center gap-1.5 text-sm font-medium text-muted transition-colors hover:text-ink"
             >
-              <ArrowLeft size={16} className="transition-transform duration-200 group-hover:-translate-x-0.5" />
+              <ArrowLeft
+                size={16}
+                className="transition-transform duration-200 group-hover:-translate-x-0.5"
+              />
               Back to home
             </Link>
             <div className="flex flex-col items-center justify-center rounded-2xl border border-dashed border-line bg-surface py-24 shadow-sm">
               <div className="mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-accent-soft">
                 <MapPin className="text-accent" size={28} />
               </div>
-              <h1 className="font-serif text-2xl font-semibold text-ink">Store Unavailable</h1>
+              <h1 className="font-serif text-2xl font-semibold text-ink">
+                Store Unavailable
+              </h1>
               <p className="mt-2 max-w-sm text-center text-sm leading-relaxed text-muted">
-                We couldn't find this store at the moment. Please try again later.
+                We couldn't find this store at the moment. Please try again
+                later.
               </p>
             </div>
           </div>
@@ -192,9 +185,11 @@ export default function PublicStore() {
   if (loading) {
     return (
       <>
-        <SEO title="Store | Insanjo" description="Loading store details…" />
-        <Navbar />
-        <main className="min-h-screen bg-canvas pt-24">
+        <SEO
+          title="Store | Insanjo"
+          description="Loading store details…"
+        />
+        <main className="min-h-screen bg-canvas">
           <Loader />
         </main>
         <Footer />
@@ -206,20 +201,29 @@ export default function PublicStore() {
   if (!details) {
     return (
       <>
-        <SEO title="Store Not Found | Insanjo" description="The requested store could not be found." />
-        <Navbar />
-        <main className="min-h-screen bg-canvas pt-24">
-          <div className="mx-auto max-w-7xl px-5 py-16 sm:px-8">
+        <SEO
+          title="Store Not Found | Insanjo"
+          description="The requested store could not be found."
+        />
+        <main className="min-h-screen bg-canvas">
+          <div className="mx-auto max-w-7xl px-5 py-24 sm:px-8">
             <Link
               to="/"
               className="group mb-8 inline-flex items-center gap-1.5 text-sm font-medium text-muted transition-colors hover:text-ink"
             >
-              <ArrowLeft size={16} className="transition-transform duration-200 group-hover:-translate-x-0.5" />
+              <ArrowLeft
+                size={16}
+                className="transition-transform duration-200 group-hover:-translate-x-0.5"
+              />
               Back to home
             </Link>
             <div className="flex flex-col items-center justify-center rounded-2xl border border-dashed border-line bg-surface py-24 shadow-sm">
-              <h1 className="font-serif text-2xl font-semibold text-ink">Store Not Found</h1>
-              <p className="mt-2 text-sm text-muted">This store doesn't exist or has been removed.</p>
+              <h1 className="font-serif text-2xl font-semibold text-ink">
+                Store Not Found
+              </h1>
+              <p className="mt-2 text-sm text-muted">
+                This store doesn't exist or has been removed.
+              </p>
             </div>
           </div>
         </main>
@@ -238,18 +242,16 @@ export default function PublicStore() {
         url={`https://insanjo.com/store/${storeId}`}
       />
 
-      <Navbar />
-
-      <main className="min-h-screen bg-canvas pt-20">
-        {/* ── Hero / Cover ─────────────────────────── */}
-        <section className="relative h-[42vh] min-h-[320px] w-full overflow-hidden bg-surface">
+      <main className="min-h-screen bg-canvas">
+        {/* ── Cover Banner ─────────────────────────── */}
+        <section className="relative h-[45vh] min-h-[340px] w-full overflow-hidden bg-surface">
           {/* Cover image slideshow */}
           {coverImages.length > 0 ? (
             <AnimatePresence mode="wait">
               <motion.img
                 key={imageIndex}
                 src={coverImages[imageIndex]}
-                alt=""
+                alt={`${details.businessName} cover`}
                 initial={{ opacity: 0, scale: 1.05 }}
                 animate={{ opacity: 1, scale: 1 }}
                 exit={{ opacity: 0 }}
@@ -262,18 +264,21 @@ export default function PublicStore() {
           )}
 
           {/* Gradient overlay */}
-          <div className="absolute inset-0 bg-gradient-to-t from-canvas via-canvas/30 to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-t from-canvas via-canvas/20 to-transparent" />
 
           {/* Dots indicator */}
           {coverImages.length > 1 && (
-            <div className="absolute bottom-4 left-1/2 z-10 flex -translate-x-1/2 gap-1.5">
+            <div className="absolute bottom-5 left-1/2 z-10 flex -translate-x-1/2 gap-2">
               {coverImages.map((_, i) => (
                 <button
                   key={i}
                   type="button"
                   onClick={() => setImageIndex(i)}
-                  className={`h-1.5 rounded-full transition-all duration-300 ${
-                    i === imageIndex ? "w-6 bg-white" : "w-1.5 bg-white/50"
+                  aria-label={`View cover image ${i + 1}`}
+                  className={`h-2 rounded-full transition-all duration-300 ${
+                    i === imageIndex
+                      ? "w-7 bg-white"
+                      : "w-2 bg-white/50 hover:bg-white/70"
                   }`}
                 />
               ))}
@@ -290,22 +295,67 @@ export default function PublicStore() {
               Back
             </Link>
           </div>
+
+          {/* Store name overlay on banner */}
+          <div className="absolute bottom-8 left-5 right-5 z-10 sm:left-8 sm:right-8">
+            <div className="flex items-end gap-4">
+              {/* Avatar */}
+              <div className="hidden h-20 w-20 overflow-hidden rounded-2xl border-[3px] border-white/30 shadow-xl sm:block sm:h-24 sm:w-24">
+                {details.businessProfileImage ? (
+                  <img
+                    src={details.businessProfileImage}
+                    alt={details.businessName}
+                    className="h-full w-full object-cover"
+                  />
+                ) : (
+                  <div className="flex h-full w-full items-center justify-center bg-white/20 text-2xl font-bold text-white backdrop-blur-sm">
+                    {details.businessName?.charAt(0)?.toUpperCase() || "S"}
+                  </div>
+                )}
+              </div>
+              <div className="flex-1">
+                <h1 className="font-serif text-2xl font-bold text-white drop-shadow-lg sm:text-3xl">
+                  {details.businessName}
+                </h1>
+                <div className="mt-1.5 flex flex-wrap items-center gap-2">
+                  <span
+                    className={`inline-flex items-center gap-1.5 rounded-full px-3 py-0.5 text-xs font-semibold backdrop-blur-md ${
+                      details.isOpenNow
+                        ? "bg-emerald-500/80 text-white"
+                        : "bg-red-500/80 text-white"
+                    }`}
+                  >
+                    <span
+                      className={`h-1.5 w-1.5 rounded-full ${
+                        details.isOpenNow ? "bg-white" : "bg-white"
+                      }`}
+                    />
+                    {details.isOpenNow ? "Open Now" : "Closed"}
+                  </span>
+                  <span className="text-xs text-white/80 drop-shadow-lg">
+                    {details.isOpenNow
+                      ? `Closes ${formatTime(details.closingTime)}`
+                      : `Opens ${formatTime(details.openingTime)}`}
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
         </section>
 
-        {/* ── Store info card ─────────────────────── */}
+        {/* ── Store info section ──────────────────── */}
         <motion.section
           variants={containerVariants}
           initial="hidden"
           animate="visible"
-          className="relative mx-auto -mt-16 max-w-6xl px-5 sm:px-8"
+          className="relative mx-auto max-w-6xl px-5 sm:px-8"
         >
-          {/* Profile image + name row */}
+          {/* Mobile avatar (visible only on small screens) */}
           <motion.div
             variants={itemVariants}
-            className="flex flex-col items-center gap-4 sm:flex-row sm:items-end sm:gap-6"
+            className="-mt-6 mb-4 flex sm:hidden"
           >
-            {/* Avatar */}
-            <div className="relative -mt-4 h-24 w-24 overflow-hidden rounded-2xl border-[3px] border-surface shadow-xl sm:h-28 sm:w-28">
+            <div className="h-20 w-20 overflow-hidden rounded-2xl border-[3px] border-surface shadow-xl">
               {details.businessProfileImage ? (
                 <img
                   src={details.businessProfileImage}
@@ -313,86 +363,42 @@ export default function PublicStore() {
                   className="h-full w-full object-cover"
                 />
               ) : (
-                <div className="flex h-full w-full items-center justify-center bg-accent-soft text-2xl font-bold text-accent">
+                <div className="flex h-full w-full items-center justify-center bg-accent-soft text-xl font-bold text-accent">
                   {details.businessName?.charAt(0)?.toUpperCase() || "S"}
                 </div>
               )}
-            </div>
-
-            <div className="flex flex-1 flex-col items-center text-center sm:items-start sm:text-left">
-              <div className="flex items-center gap-2.5">
-                <h1 className="font-serif text-2xl font-semibold text-ink sm:text-3xl">
-                  {details.businessName}
-                </h1>
-                <button
-                  type="button"
-                  onClick={handleFavorite}
-                  disabled={favLoading}
-                  aria-label={favorite ? "Remove from favorites" : "Add to favorites"}
-                  className="grid h-9 w-9 shrink-0 place-items-center rounded-full border border-line bg-surface transition-all hover:bg-accent-soft active:scale-90"
-                >
-                  {favLoading ? (
-                    <Loader2 size={15} className="animate-spin text-red-400" />
-                  ) : (
-                    <Heart
-                      size={16}
-                      className={favorite ? "fill-red-500 text-red-500" : "text-muted"}
-                    />
-                  )}
-                </button>
-              </div>
-
-              {/* Status + hours */}
-              <div className="mt-1.5 flex flex-wrap items-center gap-2 text-sm">
-                <span
-                  className={`inline-flex items-center gap-1 rounded-full px-2.5 py-0.5 text-xs font-semibold ${
-                    details.isOpenNow
-                      ? "bg-emerald-50 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-400"
-                      : "bg-red-50 text-red-700 dark:bg-red-900/30 dark:text-red-400"
-                  }`}
-                >
-                  <span
-                    className={`h-1.5 w-1.5 rounded-full ${
-                      details.isOpenNow ? "bg-emerald-500" : "bg-red-500"
-                    }`}
-                  />
-                  {details.isOpenNow ? "Open Now" : "Closed"}
-                </span>
-                <span className="text-muted">
-                  {details.isOpenNow
-                    ? `Closes ${formatTime(details.closingTime)}`
-                    : `Opens ${formatTime(details.openingTime)}`}
-                </span>
-              </div>
             </div>
           </motion.div>
 
           {/* Address card */}
           <motion.div
             variants={itemVariants}
-            className="mt-6 flex flex-col gap-4 rounded-2xl border border-line bg-surface p-5 shadow-sm sm:flex-row sm:items-center sm:justify-between"
+            className="mt-4 flex flex-col gap-4 rounded-2xl border border-line bg-surface p-5 shadow-sm sm:flex-row sm:items-center sm:justify-between"
           >
             <div className="flex items-start gap-3">
               <div className="mt-0.5 grid h-9 w-9 shrink-0 place-items-center rounded-xl bg-accent-soft">
                 <MapPin size={17} className="text-accent" />
               </div>
               <div>
-                <p className="text-sm font-medium text-ink">{details.businessAddress}</p>
-                <p className="mt-0.5 text-xs text-faint">{details.businessName}</p>
+                <p className="text-sm font-medium text-ink">
+                  {details.businessAddress}
+                </p>
+                <p className="mt-0.5 text-xs text-faint">
+                  {details.businessName}
+                </p>
               </div>
             </div>
 
             {/* Action buttons */}
             <div className="flex gap-3">
-              <a
-                href={`https://www.google.com/maps/dir/?api=1&destination=${details.latitude},${details.longitude}`}
-                target="_blank"
-                rel="noopener noreferrer"
+              <button
+                type="button"
+                onClick={() => setMapOpen(true)}
                 className="inline-flex items-center gap-2 rounded-xl bg-accent px-4 py-2.5 text-sm font-semibold text-white transition-all hover:bg-accent/90 active:scale-95"
               >
                 <Navigation size={15} />
                 Navigate
-              </a>
+              </button>
               {details.businessPhone && (
                 <a
                   href={`tel:${details.businessPhone}`}
@@ -411,9 +417,12 @@ export default function PublicStore() {
             className="mt-10 flex items-center justify-between"
           >
             <div>
-              <h2 className="font-serif text-xl font-semibold text-ink">In Stock</h2>
+              <h2 className="font-serif text-xl font-semibold text-ink">
+                In Stock
+              </h2>
               <p className="mt-0.5 text-sm text-muted">
-                {inventory.length} product{inventory.length !== 1 ? "s" : ""} available
+                {inventory.length} product
+                {inventory.length !== 1 ? "s" : ""} available
               </p>
             </div>
             {inventory.length > 4 && (
@@ -439,17 +448,24 @@ export default function PublicStore() {
                   key={item.id || item._id || i}
                   name={item.name}
                   price={formatPrice(item.price, item.currency)}
-                  images={item.images}
-                  isFavorited={item.isFavorited}
+                  image={item.image}
+                  description={item.description}
+                  availableStock={item.availableStock}
                 />
+
+                // <>{JSON.stringify(item)}</>
               ))
             ) : (
               <div className="col-span-full flex flex-col items-center py-16 text-center">
                 <div className="mb-3 grid h-12 w-12 place-items-center rounded-full bg-accent-soft">
                   <Search size={20} className="text-accent" />
                 </div>
-                <p className="text-sm font-medium text-muted">No products yet</p>
-                <p className="mt-1 text-xs text-faint">This vendor hasn't added any products.</p>
+                <p className="text-sm font-medium text-muted">
+                  No products yet
+                </p>
+                <p className="mt-1 text-xs text-faint">
+                  This vendor hasn't added any products.
+                </p>
               </div>
             )}
           </motion.div>
@@ -527,8 +543,9 @@ export default function PublicStore() {
                         key={item.id || item._id || i}
                         name={item.name}
                         price={formatPrice(item.price, item.currency)}
-                        images={item.images}
-                        isFavorited={item.isFavorited}
+                        image={item.image}
+                        description={item.description}
+                        availableStock={item.availableStock}
                       />
                     ))}
                   </div>
@@ -549,7 +566,7 @@ export default function PublicStore() {
       </AnimatePresence>
 
       {/* ─────────────────────────────────────────────
-          MAP MODAL (full-screen overlay)
+          MAP MODAL (full-screen with real Google Maps embed)
           ───────────────────────────────────────────── */}
       <AnimatePresence>
         {mapOpen && (
@@ -559,7 +576,7 @@ export default function PublicStore() {
             initial="hidden"
             animate="visible"
             exit="hidden"
-            className="fixed inset-0 z-[70] bg-black"
+            className="fixed inset-0 z-[70]"
           >
             {/* Close button */}
             <div className="absolute left-4 top-4 z-20">
@@ -573,33 +590,38 @@ export default function PublicStore() {
               </button>
             </div>
 
-            {/* Store name overlay */}
-            <div className="absolute bottom-8 left-1/2 z-20 -translate-x-1/2">
-              <div className="rounded-2xl border border-white/10 bg-surface/90 px-5 py-3 text-center backdrop-blur-xl">
-                <p className="text-sm font-semibold text-ink">{details.businessName}</p>
-                <p className="mt-0.5 text-xs text-muted">{details.businessAddress}</p>
-              </div>
-            </div>
-
-            {/* Map placeholder — opens Google Maps in new tab */}
-            <div className="relative flex h-full w-full items-center justify-center bg-[#0a1424]">
-              <div className="text-center">
-                <div className="mx-auto mb-4 grid h-16 w-16 place-items-center rounded-full bg-accent-soft">
-                  <MapPin size={28} className="text-accent" />
-                </div>
-                <p className="text-lg font-semibold text-white">{details.businessName}</p>
-                <p className="mt-1 text-sm text-white/60">{details.businessAddress}</p>
+            {/* Store info overlay at bottom */}
+            <div className="absolute bottom-6 left-1/2 z-20 -translate-x-1/2">
+              <div className="rounded-2xl border border-white/10 bg-surface/90 px-5 py-3 text-center backdrop-blur-xl shadow-lg">
+                <p className="text-sm font-semibold text-ink">
+                  {details.businessName}
+                </p>
+                <p className="mt-0.5 text-xs text-muted">
+                  {details.businessAddress}
+                </p>
                 <a
                   href={`https://www.google.com/maps/dir/?api=1&destination=${details.latitude},${details.longitude}`}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="mt-5 inline-flex items-center gap-2 rounded-xl bg-accent px-5 py-3 text-sm font-semibold text-white transition-all hover:bg-accent/90"
+                  className="mt-2 inline-flex items-center gap-1.5 text-xs font-medium text-accent hover:underline"
                 >
-                  <ExternalLink size={16} />
+                  <ExternalLink size={12} />
                   Open in Google Maps
                 </a>
               </div>
             </div>
+
+            {/* Real Google Maps iframe embed */}
+            <iframe
+              title={`${details.businessName} location`}
+              width="100%"
+              height="100%"
+              loading="lazy"
+              allowFullScreen
+              referrerPolicy="no-referrer-when-downgrade"
+              src={`https://www.google.com/maps/embed/v1/place?key=AIzaSyBFw0Qbyq9zTFTd-tUY6dZWTgaQzuU17R8&q=${details.latitude},${details.longitude}&center=${details.latitude},${details.longitude}&zoom=15`}
+              className="absolute inset-0 h-full w-full border-0"
+            />
           </motion.div>
         )}
       </AnimatePresence>

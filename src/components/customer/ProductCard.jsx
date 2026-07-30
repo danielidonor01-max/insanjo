@@ -1,58 +1,81 @@
-import { Heart, ShoppingBag } from "lucide-react";
-import { useState } from "react";
+import { ShoppingBag } from "lucide-react";
 
 export default function ProductCard({
   name,
   price,
-  images,
-  isFavorited: initialFav = false,
+  description,
+  image,
+  availableStock,
   style = {},
   className = "",
 }) {
-  const [faved, setFaved] = useState(initialFav);
   const imageUrl =
-    images?.[0] ||
+    image ||
     "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=400&q=80";
+
+  const formatDescription = (text) => {
+    if (!text || text.trim().length === 0) return "Description unavailable";
+    const trimmed = text.trim();
+    return trimmed.length > 25
+      ? trimmed.slice(0, trimmed.lastIndexOf(" ", 25)) + "…"
+      : trimmed;
+  };
+
+  const getStockColor = () => {
+    if (!availableStock && availableStock !== 0) return null;
+    if (availableStock === 0) return "bg-gray-100 text-gray-500 dark:bg-gray-800 dark:text-gray-400";
+    if (availableStock === 1) return "bg-red-50 text-red-600 dark:bg-red-900/30 dark:text-red-400";
+    if (availableStock <= 5) return "bg-orange-50 text-orange-600 dark:bg-orange-900/30 dark:text-orange-400";
+    return "bg-emerald-50 text-emerald-600 dark:bg-emerald-900/30 dark:text-emerald-400";
+  };
+
+  const stockColor = getStockColor();
 
   return (
     <div
-      className={`group relative flex flex-col overflow-hidden rounded-2xl border border-line bg-surface shadow-sm transition-all duration-300 hover:shadow-md ${className}`}
+      className={`group relative flex flex-col overflow-hidden rounded-2xl border border-line bg-surface shadow-sm transition-all duration-300 hover:shadow-md active:scale-[0.97] ${className}`}
       style={style}
     >
-      {/* Image */}
-      <div className="relative aspect-square overflow-hidden bg-canvas">
+      {/* Image Section */}
+      <div className="relative aspect-[4/3] w-full overflow-hidden bg-canvas">
         <img
           src={imageUrl}
           alt={name || "Product"}
           loading="lazy"
           className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
         />
-        <button
-          type="button"
-          onClick={() => setFaved((v) => !v)}
-          aria-label={faved ? "Remove from favorites" : "Add to favorites"}
-          className="absolute right-2.5 top-2.5 grid h-8 w-8 place-items-center rounded-full bg-white/80 backdrop-blur-sm transition-colors hover:bg-white"
-        >
-          <Heart
-            size={15}
-            className={faved ? "fill-red-500 text-red-500" : "text-ink/60"}
-          />
-        </button>
+
+        {/* Gradient fade overlay */}
+        <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/20 to-transparent" />
+
+        {/* Stock badge */}
+        {stockColor && (
+          <span
+            className={`absolute left-3 top-3 rounded-full px-2.5 py-1.5 text-[11px] font-semibold leading-tight backdrop-blur-lg ${stockColor}`}
+          >
+            {availableStock} In Stock
+          </span>
+        )}
       </div>
 
-      {/* Info */}
-      <div className="flex flex-1 flex-col justify-between gap-1.5 p-3.5">
-        <h3 className="line-clamp-2 text-sm font-medium leading-snug text-ink">
+      {/* Details */}
+      <div className="flex flex-col gap-1 px-4 py-3">
+        <h3 className="truncate text-sm font-semibold text-ink">
           {name || "Product Name"}
         </h3>
-        <div className="flex items-center justify-between">
-          <span className="text-sm font-semibold text-accent">{price}</span>
+
+        <p className="line-clamp-2 text-xs leading-relaxed text-muted">
+          {formatDescription(description)}
+        </p>
+
+        <div className="mt-1.5 flex items-center justify-between">
+          <span className="text-sm font-bold text-ink">{price}</span>
           <button
             type="button"
             aria-label="Add to bag"
-            className="grid h-8 w-8 place-items-center rounded-full bg-accent text-white transition-all hover:bg-accent/90 active:scale-95"
+            className="grid h-8 w-8 shrink-0 place-items-center rounded-full bg-accent text-white transition-all hover:bg-accent/90 active:scale-90"
           >
-            <ShoppingBag size={14} />
+            <ShoppingBag size={13} />
           </button>
         </div>
       </div>
