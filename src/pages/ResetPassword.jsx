@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
 import { ArrowLeft, Lock, Eye, EyeOff, CheckCircle, Loader2, Smartphone, AlertCircle, Sparkles, Shield } from 'lucide-react';
+import PasswordStrength from '../components/PasswordStrength';
 import SEO from '../components/SEO';
 import Logo from '../components/Logo';
 
@@ -25,8 +26,10 @@ export default function ResetPassword() {
   const [error, setError] = useState('');
   const [success, setSuccess] = useState(false);
   const [appDetected, setAppDetected] = useState(false);
+  const [passwordFocused, setPasswordFocused] = useState(false);
   const appCheckTimer = useRef(null);
   const passwordRef = useRef(null);
+  const confirmRef = useRef(null);
 
   useEffect(() => {
     passwordRef.current?.focus();
@@ -59,12 +62,16 @@ export default function ResetPassword() {
   }, [success]);
 
   const validate = () => {
-    if (!form.password || !form.confirm) {
-      setError('Please fill in both fields.');
+    if (!form.password) {
+      setError('Please enter a new password.');
       return false;
     }
     if (form.password.length < 8) {
       setError('Password must be at least 8 characters.');
+      return false;
+    }
+    if (!form.confirm) {
+      setError('Please confirm your password.');
       return false;
     }
     if (form.password !== form.confirm) {
@@ -94,6 +101,12 @@ export default function ResetPassword() {
     onChange: (e) => {
       setForm((prev) => ({ ...prev, [field]: e.target.value }));
       if (error) setError('');
+    },
+    onFocus: () => {
+      if (field === 'password') setPasswordFocused(true);
+    },
+    onBlur: () => {
+      if (field === 'password') setPasswordFocused(false);
     },
     autoComplete: 'new-password',
     required: true,
@@ -304,6 +317,12 @@ export default function ResetPassword() {
                     {show.password ? <EyeOff size={16} /> : <Eye size={16} />}
                   </button>
                 </div>
+
+                {/* Password strength & validation */}
+                <PasswordStrength
+                  password={form.password}
+                  confirmPassword={form.confirm}
+                />
               </div>
 
               {/* Confirm password */}
