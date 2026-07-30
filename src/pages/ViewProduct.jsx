@@ -168,7 +168,7 @@ export default function ViewProduct() {
         <div className="mx-auto max-w-6xl px-5 py-8 sm:px-8 sm:py-12">
           <div className="flex flex-col gap-10 lg:flex-row lg:items-start lg:gap-14">
             {/* ── Left: Image ──────────────────── */}
-            <div className="w-full shrink-0 lg:w-[480px]">
+            <div className="w-full shrink-0 lg:w-120">
               <div className="relative aspect-square w-full overflow-hidden rounded-2xl border border-line bg-surface shadow-sm">
                 <img
                   src={product.image}
@@ -288,7 +288,7 @@ export default function ViewProduct() {
                         transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
                         className="overflow-hidden rounded-xl"
                       >
-                        <div className="relative mt-4 h-[200px] w-full overflow-hidden rounded-xl border border-line">
+                        <div className="relative mt-4 h-50 w-full overflow-hidden rounded-xl border border-line">
                           <iframe
                             title={`${vendor.businessName} location`}
                             width="100%"

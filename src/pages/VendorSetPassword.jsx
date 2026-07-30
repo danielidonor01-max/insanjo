@@ -1,22 +1,23 @@
 import { useState, useEffect, useRef } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
-import { ArrowLeft, Lock, Eye, EyeOff, CheckCircle, Loader2, Smartphone, AlertCircle, Sparkles, Shield } from 'lucide-react';
+import { ArrowLeft, Lock, Eye, EyeOff, CheckCircle, Loader2, Smartphone, AlertCircle, Sparkles, Shield, Store } from 'lucide-react';
 import PasswordStrength from '../components/PasswordStrength';
+import webApi from '../services/webApi';
 import SEO from '../components/SEO';
 import Logo from '../components/Logo';
 
-const APP_CUSTOM_SCHEME = 'tops://reset-password';
+const APP_CUSTOM_SCHEME = 'tops://set-password';
 const APP_PACKAGE_NAME = 'com.lechi.insanjo';
 const APP_STORE_URL = 'https://insanjo.com/download';
 
 const getDeepLink = () => {
   if (/android/i.test(navigator.userAgent)) {
-    return `intent://reset-password#Intent;scheme=tops;package=${APP_PACKAGE_NAME};end`;
+    return `intent://set-password#Intent;scheme=tops;package=${APP_PACKAGE_NAME};end`;
   }
   return APP_CUSTOM_SCHEME;
 };
 
-export default function ResetPassword() {
+export default function VendorSetPassword() {
   const [searchParams] = useSearchParams();
   const token = searchParams.get('token');
 
@@ -26,10 +27,8 @@ export default function ResetPassword() {
   const [error, setError] = useState('');
   const [success, setSuccess] = useState(false);
   const [appDetected, setAppDetected] = useState(false);
-  const [passwordFocused, setPasswordFocused] = useState(false);
   const appCheckTimer = useRef(null);
   const passwordRef = useRef(null);
-  const confirmRef = useRef(null);
 
   useEffect(() => {
     passwordRef.current?.focus();
@@ -85,12 +84,28 @@ export default function ResetPassword() {
     e.preventDefault();
     setError('');
     if (!validate()) return;
+    if (!token) {
+      setError('Invalid or missing set token.');
+      return;
+    }
+
     setLoading(true);
     try {
-      await new Promise((resolve) => setTimeout(resolve, 1800));
-      setSuccess(true);
-    } catch {
-      setError('Something went wrong. Please try again.');
+      const res = await webApi.post('/pages/set-password', {
+        token,
+        newPassword: form.password,
+      });
+      if (res.data?.success || res.status === 200) {
+        setSuccess(true);
+      } else {
+        setError(res.data?.message || 'set failed. Please try again.');
+      }
+    } catch (err) {
+      setError(
+        err.response?.data?.message ||
+        err.userMessage ||
+        'Something went wrong. Please try again.'
+      );
     } finally {
       setLoading(false);
     }
@@ -101,12 +116,6 @@ export default function ResetPassword() {
     onChange: (e) => {
       setForm((prev) => ({ ...prev, [field]: e.target.value }));
       if (error) setError('');
-    },
-    onFocus: () => {
-      if (field === 'password') setPasswordFocused(true);
-    },
-    onBlur: () => {
-      if (field === 'password') setPasswordFocused(false);
     },
     autoComplete: 'new-password',
     required: true,
@@ -119,9 +128,9 @@ export default function ResetPassword() {
     return (
       <>
         <SEO
-          title="Password Reset Successful | Insanjo"
-          description="Your Insanjo password has been reset successfully."
-          url="https://insanjo.com/reset-password"
+          title="Password set Successful | Insanjo"
+          description="Your Insanjo vendor password has been set successfully."
+          url="https://insanjo.com/pages/set-password"
         />
         <div className="flex min-h-screen flex-col items-center justify-center bg-canvas px-5 py-16 sm:px-8">
           <div className="w-full max-w-sm text-center">
@@ -137,7 +146,7 @@ export default function ResetPassword() {
               Password updated
             </h1>
             <p className="mt-2 text-sm leading-relaxed text-muted">
-              Your password has been reset successfully.
+              Your vendor account password has been set successfully.
               {appDetected === false && ' Opening the Insanjo app…'}
             </p>
 
@@ -194,9 +203,9 @@ export default function ResetPassword() {
   return (
     <>
       <SEO
-        title="Reset Password | Insanjo"
-        description="Set a new password for your Insanjo account."
-        url="https://insanjo.com/reset-password"
+        title="set Password | Insanjo"
+        description="Set a new password for your Insanjo vendor account."
+        url="https://insanjo.com/pages/set-password"
       />
 
       <div className="flex min-h-screen flex-col lg:flex-row">
@@ -240,20 +249,20 @@ export default function ResetPassword() {
               />
             </div>
             <h2 className="font-serif text-3xl font-medium leading-tight text-white sm:text-4xl lg:text-5xl">
-              Reset your password<br />the fun way
+              set your password<br />the fun way
             </h2>
             <p className="mt-4 max-w-sm text-sm leading-relaxed text-white/70">
-              Don't worry vendors and customers make mistakes. Pick something
-              you'll actually remember (or let us save it for you).
+              Don't worry vendor — mistakes happen. Pick something you'll
+              actually remember (or let us save it for you).
             </p>
 
             {/* Trust indicators */}
             <div className="mt-8 flex flex-col gap-3">
               <div className="flex items-center gap-3">
                 <div className="flex h-8 w-8 items-center justify-center rounded-full bg-white/10">
-                  <Shield size={14} className="text-white" />
+                  <Store size={14} className="text-white" />
                 </div>
-                <span className="text-xs text-white/60">Your data? Locked. Tight. Safe.</span>
+                <span className="text-xs text-white/60">Your store? Secured. Protected. Yours.</span>
               </div>
               <div className="flex items-center gap-3">
                 <div className="flex h-8 w-8 items-center justify-center rounded-full bg-white/10">
@@ -282,8 +291,8 @@ export default function ResetPassword() {
             </h1>
             <p className="mt-1.5 text-sm leading-relaxed text-muted">
               {token
-                ? 'Choose a strong password you haven\'t used before.'
-                : 'A valid reset token is required to proceed.'}
+                ? 'Choose a strong password for your vendor account.'
+                : 'A valid set token is required to proceed.'}
             </p>
 
             <form onSubmit={handleSubmit} className="mt-7 space-y-5">
@@ -366,16 +375,16 @@ export default function ResetPassword() {
 
               <button
                 type="submit"
-                disabled={loading}
+                disabled={loading || !token}
                 className="flex w-full items-center justify-center gap-2 rounded-lg bg-ink px-5 py-3 text-sm font-semibold text-canvas transition-all duration-300 hover:bg-accent disabled:cursor-not-allowed disabled:opacity-60"
               >
                 {loading ? (
                   <>
                     <Loader2 size={16} className="animate-spin" />
-                    Resetting…
+                    setting…
                   </>
                 ) : (
-                  'Reset password'
+                  'set password'
                 )}
               </button>
             </form>
