@@ -1,16 +1,21 @@
+import { Link } from "react-router-dom";
 import { ShoppingBag } from "lucide-react";
 
 export default function ProductCard({
+  id,
   name,
   price,
   description,
   image,
+  images,
   availableStock,
   style = {},
   className = "",
 }) {
+  const productId = id;
   const imageUrl =
     image ||
+    images?.[0] ||
     "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=400&q=80";
 
   const formatDescription = (text) => {
@@ -32,8 +37,9 @@ export default function ProductCard({
   const stockColor = getStockColor();
 
   return (
-    <div
-      className={`group relative flex flex-col overflow-hidden rounded-2xl border border-line bg-surface shadow transition-all duration-300 hover:shadow-md active:scale-[0.97] ${className}`}
+    <Link
+      to={`/product/${productId}`}
+      className={`group relative flex flex-col overflow-hidden rounded-2xl border border-line bg-surface shadow-sm transition-all duration-300 hover:shadow-md active:scale-[0.97] ${className}`}
       style={style}
     >
       {/* Image Section */}
@@ -51,7 +57,7 @@ export default function ProductCard({
         {/* Stock badge */}
         {stockColor && (
           <span
-            className={`absolute left-3 top-3 rounded-full px-2.5 py-1.5 text-[11px] font-semibold leading-tight backdrop-blur-lg ${stockColor}`}
+            className={`absolute left-3 top-3 rounded-full px-2.5 py-0.5 text-[11px] font-semibold leading-tight ${stockColor}`}
           >
             {availableStock} In Stock
           </span>
@@ -73,12 +79,16 @@ export default function ProductCard({
           <button
             type="button"
             aria-label="Add to bag"
+            onClick={(e) => {
+              e.preventDefault();
+              e.stopPropagation();
+            }}
             className="grid h-8 w-8 shrink-0 place-items-center rounded-full bg-accent text-white transition-all hover:bg-accent/90 active:scale-90"
           >
             <ShoppingBag size={13} />
           </button>
         </div>
       </div>
-    </div>
+    </Link>
   );
 }

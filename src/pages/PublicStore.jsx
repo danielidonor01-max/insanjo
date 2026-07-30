@@ -446,14 +446,13 @@ export default function PublicStore() {
               displayInventory.map((item, i) => (
                 <ProductCard
                   key={item.id || item._id || i}
+                  id={item.id || item._id}
                   name={item.name}
                   price={formatPrice(item.price, item.currency)}
                   image={item.image}
                   description={item.description}
                   availableStock={item.availableStock}
                 />
-
-                // <>{JSON.stringify(item)}</>
               ))
             ) : (
               <div className="col-span-full flex flex-col items-center py-16 text-center">
@@ -541,6 +540,7 @@ export default function PublicStore() {
                     {filteredInventory.map((item, i) => (
                       <ProductCard
                         key={item.id || item._id || i}
+                        id={item.id || item._id}
                         name={item.name}
                         price={formatPrice(item.price, item.currency)}
                         image={item.image}

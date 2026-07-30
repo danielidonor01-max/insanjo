@@ -1,5 +1,6 @@
-import { Linkedin, Instagram } from 'lucide-react';
+import { Linkedin, Instagram, Sun, Moon } from 'lucide-react';
 import Logo from './Logo';
+import { useTheme } from '../hooks/useTheme';
 
 const LINKS = [
   { label: 'Features', href: '#features' },
@@ -9,6 +10,7 @@ const LINKS = [
 ];
 
 export default function Footer() {
+  const { isDark, toggleTheme } = useTheme();
   return (
     <footer className="border-t border-line px-5 py-12 sm:px-8">
       <div className="mx-auto max-w-7xl">
@@ -46,6 +48,15 @@ export default function Footer() {
             >
               <Instagram size={16} />
             </a>
+
+            <button
+                          type="button"
+                          onClick={toggleTheme}
+                          aria-label="Toggle theme"
+                          className="grid h-11 w-11 place-items-center rounded-full border border-line bg-surface text-ink transition-all duration-300 hover:bg-accent-soft hover:rotate-12"
+                        >
+                          {isDark ? <Sun size={18} /> : <Moon size={18} />}
+                        </button>
           </div>
         </div>
 
