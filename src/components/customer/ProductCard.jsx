@@ -1,5 +1,4 @@
 import { Link } from "react-router-dom";
-import { ShoppingBag } from "lucide-react";
 
 export default function ProductCard({
   id,
@@ -74,19 +73,8 @@ export default function ProductCard({
           {formatDescription(description)}
         </p>
 
-        <div className="mt-1.5 flex items-center justify-between">
+        <div className="mt-1.5">
           <span className="text-sm font-bold text-ink">{price}</span>
-          <button
-            type="button"
-            aria-label="Add to bag"
-            onClick={(e) => {
-              e.preventDefault();
-              e.stopPropagation();
-            }}
-            className="grid h-8 w-8 shrink-0 place-items-center rounded-full bg-accent text-white transition-all hover:bg-accent/90 active:scale-90"
-          >
-            <ShoppingBag size={13} />
-          </button>
         </div>
       </div>
     </Link>

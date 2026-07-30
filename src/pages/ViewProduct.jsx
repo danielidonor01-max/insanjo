@@ -9,7 +9,6 @@ import {
   Clock,
   ChevronDown,
   ChevronUp,
-  ShoppingBag,
   Loader2,
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
@@ -263,11 +262,15 @@ export default function ViewProduct() {
                 <div className="flex gap-2">
                   <button
                     type="button"
-                    onClick={() => setMapOpen(true)}
-                    className="inline-flex items-center gap-1.5 rounded-xl bg-accent px-3.5 py-2 text-xs font-semibold text-white transition-all hover:bg-accent/90 active:scale-95"
+                    onClick={() => setMapOpen((v) => !v)}
+                    className={`inline-flex items-center gap-1.5 rounded-xl px-3.5 py-2 text-xs font-semibold transition-all active:scale-95 ${
+                      mapOpen
+                        ? "bg-ink text-canvas"
+                        : "bg-accent text-white hover:bg-accent/90"
+                    }`}
                   >
                     <Navigation size={13} />
-                    Navigate
+                    {mapOpen ? "Hide Map" : "Navigate"}
                   </button>
                   {vendor.businessPhone && (
                     <a
@@ -281,19 +284,41 @@ export default function ViewProduct() {
                 </div>
               </div>
 
-              {/* Mini map trigger */}
-              <button
-                type="button"
-                onClick={() => setMapOpen(true)}
-                className="relative h-36 overflow-hidden rounded-xl bg-canvas"
-              >
-                <div className="flex h-full w-full items-center justify-center bg-gradient-to-br from-accent-soft via-surface to-canvas">
-                  <div className="text-center">
-                    <MapPin size={22} className="mx-auto text-accent" />
-                    <p className="mt-1 text-xs text-muted">View on map</p>
-                  </div>
-                </div>
-              </button>
+              {/* ── Inline Map ──────────────────────────── */}
+              <AnimatePresence>
+                {mapOpen && vendor.latitude && vendor.longitude && (
+                  <motion.div
+                    key="inline-map"
+                    initial={{ opacity: 0, height: 0 }}
+                    animate={{ opacity: 1, height: 200 }}
+                    exit={{ opacity: 0, height: 0 }}
+                    transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
+                    className="overflow-hidden rounded-xl"
+                  >
+                    <div className="relative h-[200px] w-full overflow-hidden rounded-xl border border-line">
+                      <iframe
+                        title={`${vendor.businessName} location`}
+                        width="100%"
+                        height="100%"
+                        loading="lazy"
+                        allowFullScreen
+                        referrerPolicy="no-referrer-when-downgrade"
+                        src={`https://www.google.com/maps/embed/v1/place?key=AIzaSyBFw0Qbyq9zTFTd-tUY6dZWTgaQzuU17R8&q=${vendor.latitude},${vendor.longitude}&center=${vendor.latitude},${vendor.longitude}&zoom=15`}
+                        className="absolute inset-0 h-full w-full border-0"
+                      />
+                      <a
+                        href={`https://www.google.com/maps/dir/?api=1&destination=${vendor.latitude},${vendor.longitude}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="absolute bottom-3 left-3 rounded-full bg-surface/90 px-3 py-1.5 text-xs font-medium text-ink backdrop-blur-sm shadow-sm transition-colors hover:bg-surface"
+                      >
+                        <ExternalLink size={12} className="inline -mt-0.5 mr-1" />
+                        Open in Google Maps
+                      </a>
+                    </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
             </motion.div>
           )}
 
@@ -302,81 +327,16 @@ export default function ViewProduct() {
         </motion.section>
       </main>
 
-      {/* ─────────────────────────────────────────────
-          MAP MODAL
-          ───────────────────────────────────────────── */}
-      <AnimatePresence>
-        {mapOpen && vendor && (
-          <motion.div
-            key="map-backdrop"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className="fixed inset-0 z-[70]"
-          >
-            <div className="absolute left-4 top-4 z-20">
-              <button
-                type="button"
-                onClick={() => setMapOpen(false)}
-                className="inline-flex items-center gap-1.5 rounded-full border border-white/20 bg-white/10 px-4 py-2 text-xs font-medium text-white backdrop-blur-md transition-all hover:bg-white/20"
-              >
-                <ArrowLeft size={14} />
-                Back
-              </button>
-            </div>
-
-            <div className="absolute bottom-6 left-1/2 z-20 -translate-x-1/2">
-              <div className="rounded-2xl border border-white/10 bg-surface/90 px-5 py-3 text-center backdrop-blur-xl shadow-lg">
-                <p className="text-sm font-semibold text-ink">{vendor.businessName}</p>
-                {vendor.businessAddress && (
-                  <p className="mt-0.5 text-xs text-muted">{vendor.businessAddress}</p>
-                )}
-                {vendor.latitude && vendor.longitude && (
-                  <a
-                    href={`https://www.google.com/maps/dir/?api=1&destination=${vendor.latitude},${vendor.longitude}`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="mt-2 inline-flex items-center gap-1.5 text-xs font-medium text-accent hover:underline"
-                  >
-                    <ExternalLink size={12} />
-                    Open in Google Maps
-                  </a>
-                )}
-              </div>
-            </div>
-
-            {vendor.latitude && vendor.longitude && (
-              <iframe
-                title={`${vendor.businessName} location`}
-                width="100%"
-                height="100%"
-                loading="lazy"
-                allowFullScreen
-                referrerPolicy="no-referrer-when-downgrade"
-                src={`https://www.google.com/maps/embed/v1/place?key=AIzaSyBFw0Qbyq9zTFTd-tUY6dZWTgaQzuU17R8&q=${vendor.latitude},${vendor.longitude}&center=${vendor.latitude},${vendor.longitude}&zoom=15`}
-                className="absolute inset-0 h-full w-full border-0"
-              />
-            )}
-          </motion.div>
-        )}
-      </AnimatePresence>
-
-      {/* ── Bottom action bar ────────────────── */}
+      {/* ── Bottom price bar ────────────────── */}
       <div className="fixed bottom-0 left-0 right-0 z-50 border-t border-line bg-surface/90 px-5 py-3 backdrop-blur-xl sm:px-8">
         <div className="mx-auto flex max-w-4xl items-center justify-between gap-4">
-          <div className="flex-1">
-            <p className="text-xs text-faint">Total</p>
+          <div>
+            <p className="text-xs text-faint">Price</p>
             <p className="text-sm font-bold text-ink">
               {formatPrice(product.price, product.currency)}
             </p>
           </div>
-          <button
-            type="button"
-            className="inline-flex items-center gap-2 rounded-xl bg-accent px-6 py-3 text-sm font-semibold text-white transition-all hover:bg-accent/90 active:scale-95"
-          >
-            <ShoppingBag size={16} />
-            Add to Bag
-          </button>
+          <span className="text-xs text-muted">Contact vendor to purchase</span>
         </div>
       </div>
 

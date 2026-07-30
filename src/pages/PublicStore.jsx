@@ -393,11 +393,15 @@ export default function PublicStore() {
             <div className="flex gap-3">
               <button
                 type="button"
-                onClick={() => setMapOpen(true)}
-                className="inline-flex items-center gap-2 rounded-xl bg-accent px-4 py-2.5 text-sm font-semibold text-white transition-all hover:bg-accent/90 active:scale-95"
+                onClick={() => setMapOpen((v) => !v)}
+                className={`inline-flex items-center gap-2 rounded-xl px-4 py-2.5 text-sm font-semibold transition-all active:scale-95 ${
+                  mapOpen
+                    ? "bg-ink text-canvas"
+                    : "bg-accent text-white hover:bg-accent/90"
+                }`}
               >
                 <Navigation size={15} />
-                Navigate
+                {mapOpen ? "Hide Map" : "Navigate"}
               </button>
               {details.businessPhone && (
                 <a
@@ -410,6 +414,42 @@ export default function PublicStore() {
               )}
             </div>
           </motion.div>
+
+          {/* ── Inline Map ──────────────────────────── */}
+          <AnimatePresence>
+            {mapOpen && (
+              <motion.div
+                key="inline-map"
+                initial={{ opacity: 0, height: 0 }}
+                animate={{ opacity: 1, height: 220 }}
+                exit={{ opacity: 0, height: 0 }}
+                transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
+                className="overflow-hidden rounded-2xl"
+              >
+                <div className="relative h-[220px] w-full overflow-hidden rounded-2xl border border-line">
+                  <iframe
+                    title={`${details.businessName} location`}
+                    width="100%"
+                    height="100%"
+                    loading="lazy"
+                    allowFullScreen
+                    referrerPolicy="no-referrer-when-downgrade"
+                    src={`https://www.google.com/maps/embed/v1/place?key=AIzaSyBFw0Qbyq9zTFTd-tUY6dZWTgaQzuU17R8&q=${details.latitude},${details.longitude}&center=${details.latitude},${details.longitude}&zoom=15`}
+                    className="absolute inset-0 h-full w-full border-0"
+                  />
+                  <a
+                    href={`https://www.google.com/maps/dir/?api=1&destination=${details.latitude},${details.longitude}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="absolute bottom-3 left-3 rounded-full bg-surface/90 px-3 py-1.5 text-xs font-medium text-ink backdrop-blur-sm shadow-sm transition-colors hover:bg-surface"
+                  >
+                    <ExternalLink size={12} className="inline -mt-0.5 mr-1" />
+                    Open in Google Maps
+                  </a>
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
 
           {/* ── In Stock header ──────────────────── */}
           <motion.div
@@ -561,67 +601,6 @@ export default function PublicStore() {
                 )}
               </div>
             </motion.div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-
-      {/* ─────────────────────────────────────────────
-          MAP MODAL (full-screen with real Google Maps embed)
-          ───────────────────────────────────────────── */}
-      <AnimatePresence>
-        {mapOpen && (
-          <motion.div
-            key="map-backdrop"
-            variants={modalBackdrop}
-            initial="hidden"
-            animate="visible"
-            exit="hidden"
-            className="fixed inset-0 z-[70]"
-          >
-            {/* Close button */}
-            <div className="absolute left-4 top-4 z-20">
-              <button
-                type="button"
-                onClick={() => setMapOpen(false)}
-                className="inline-flex items-center gap-1.5 rounded-full border border-white/20 bg-white/10 px-4 py-2 text-xs font-medium text-white backdrop-blur-md transition-all hover:bg-white/20"
-              >
-                <ArrowLeft size={14} />
-                Back
-              </button>
-            </div>
-
-            {/* Store info overlay at bottom */}
-            <div className="absolute bottom-6 left-1/2 z-20 -translate-x-1/2">
-              <div className="rounded-2xl border border-white/10 bg-surface/90 px-5 py-3 text-center backdrop-blur-xl shadow-lg">
-                <p className="text-sm font-semibold text-ink">
-                  {details.businessName}
-                </p>
-                <p className="mt-0.5 text-xs text-muted">
-                  {details.businessAddress}
-                </p>
-                <a
-                  href={`https://www.google.com/maps/dir/?api=1&destination=${details.latitude},${details.longitude}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="mt-2 inline-flex items-center gap-1.5 text-xs font-medium text-accent hover:underline"
-                >
-                  <ExternalLink size={12} />
-                  Open in Google Maps
-                </a>
-              </div>
-            </div>
-
-            {/* Real Google Maps iframe embed */}
-            <iframe
-              title={`${details.businessName} location`}
-              width="100%"
-              height="100%"
-              loading="lazy"
-              allowFullScreen
-              referrerPolicy="no-referrer-when-downgrade"
-              src={`https://www.google.com/maps/embed/v1/place?key=AIzaSyBFw0Qbyq9zTFTd-tUY6dZWTgaQzuU17R8&q=${details.latitude},${details.longitude}&center=${details.latitude},${details.longitude}&zoom=15`}
-              className="absolute inset-0 h-full w-full border-0"
-            />
           </motion.div>
         )}
       </AnimatePresence>
