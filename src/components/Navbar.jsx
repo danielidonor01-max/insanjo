@@ -1,6 +1,7 @@
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { Menu, X, Moon, Sun } from "lucide-react";
+import { useNavigate, useLocation } from "react-router-dom";
 import Logo from "./Logo";
 import { useTheme } from "../hooks/useTheme";
 
@@ -16,6 +17,8 @@ export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
   const { isDark, toggleTheme } = useTheme();
+  const navigate = useNavigate();
+  const location = useLocation();
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 12);
@@ -23,6 +26,35 @@ export default function Navbar() {
     window.addEventListener('scroll', onScroll, { passive: true });
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
+
+  const handleNavClick = useCallback((e, href) => {
+    e.preventDefault();
+    setOpen(false);
+    const sectionId = href.replace('#', '');
+    if (location.pathname === '/') {
+      // Already on home — scroll to section
+      const el = document.getElementById(sectionId);
+      if (el) {
+        el.scrollIntoView({ behavior: 'smooth' });
+      }
+    } else {
+      // Navigate to home with hash — HomePage will handle the scroll
+      navigate(`/${href}`);
+    }
+  }, [location.pathname, navigate]);
+
+  const handleCtaClick = useCallback((e) => {
+    e.preventDefault();
+    setOpen(false);
+    if (location.pathname === '/') {
+      const el = document.getElementById('waitlist');
+      if (el) {
+        el.scrollIntoView({ behavior: 'smooth' });
+      }
+    } else {
+      navigate('/#waitlist');
+    }
+  }, [location.pathname, navigate]);
 
   return (
     <header
@@ -40,6 +72,7 @@ export default function Navbar() {
             <a
               key={l.href}
               href={l.href}
+              onClick={(e) => handleNavClick(e, l.href)}
               className="text-sm font-medium text-muted transition-colors hover:text-ink"
             >
               {l.label}
@@ -60,6 +93,7 @@ export default function Navbar() {
 
           <a
             href="#waitlist"
+            onClick={handleCtaClick}
             className="rounded-full bg-ink px-5 py-2.5 text-sm font-semibold text-canvas transition-colors duration-300 hover:bg-accent"
           >
             Be The First
@@ -99,7 +133,7 @@ export default function Navbar() {
             <a
               key={l.href}
               href={l.href}
-              onClick={() => setOpen(false)}
+              onClick={(e) => handleNavClick(e, l.href)}
               className="rounded-lg px-2 py-3 text-base font-medium text-muted transition-colors hover:bg-accent-soft hover:text-ink"
             >
               {l.label}
@@ -107,7 +141,7 @@ export default function Navbar() {
           ))}
           <a
             href="#waitlist"
-            onClick={() => setOpen(false)}
+            onClick={handleCtaClick}
             className="mt-2 inline-flex items-center justify-center rounded-full bg-ink px-5 py-3 text-sm font-semibold text-canvas"
           >
             Be The First

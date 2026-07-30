@@ -9,11 +9,13 @@ import TermsAndPrivacy from './pages/TermsAndPrivacy'
 import PublicStore from './pages/PublicStore'
 import ViewProduct from './pages/ViewProduct'
 import Analytics from './components/Analytics'
+import HashScrollHandler from './components/HashScrollHandler'
 
 const App = () => {
   return (
     < >
       <Analytics />
+      <HashScrollHandler />
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/reset-password" element={<ResetPassword />} />

@@ -1,3 +1,5 @@
+import { useCallback } from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { Linkedin, Instagram, Sun, Moon } from 'lucide-react';
 import Logo from './Logo';
 import { useTheme } from '../hooks/useTheme';
@@ -11,6 +13,22 @@ const LINKS = [
 
 export default function Footer() {
   const { isDark, toggleTheme } = useTheme();
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  const handleNavClick = useCallback((e, href) => {
+    e.preventDefault();
+    const sectionId = href.replace('#', '');
+    if (location.pathname === '/') {
+      const el = document.getElementById(sectionId);
+      if (el) {
+        el.scrollIntoView({ behavior: 'smooth' });
+      }
+    } else {
+      navigate(`/${href}`);
+    }
+  }, [location.pathname, navigate]);
+
   return (
     <footer className="border-t border-line px-5 py-12 sm:px-8">
       <div className="mx-auto max-w-7xl">
@@ -22,6 +40,7 @@ export default function Footer() {
               <a
                 key={l.href}
                 href={l.href}
+                onClick={(e) => handleNavClick(e, l.href)}
                 className="text-sm font-medium text-muted transition-colors hover:text-ink"
               >
                 {l.label}
@@ -50,13 +69,13 @@ export default function Footer() {
             </a>
 
             <button
-                          type="button"
-                          onClick={toggleTheme}
-                          aria-label="Toggle theme"
-                          className="grid h-11 w-11 place-items-center rounded-full border border-line bg-surface text-ink transition-all duration-300 hover:bg-accent-soft hover:rotate-12"
-                        >
-                          {isDark ? <Sun size={18} /> : <Moon size={18} />}
-                        </button>
+              type="button"
+              onClick={toggleTheme}
+              aria-label="Toggle theme"
+              className="grid h-11 w-11 place-items-center rounded-full border border-line bg-surface text-ink transition-all duration-300 hover:bg-accent-soft hover:rotate-12"
+            >
+              {isDark ? <Sun size={18} /> : <Moon size={18} />}
+            </button>
           </div>
         </div>
 
