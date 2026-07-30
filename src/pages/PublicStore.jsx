@@ -300,7 +300,7 @@ export default function PublicStore() {
           <div className="absolute bottom-8 left-5 right-5 z-10 sm:left-8 sm:right-8">
             <div className="flex items-end gap-4">
               {/* Avatar */}
-              <div className="hidden h-20 w-20 overflow-hidden rounded-2xl border-[3px] border-white/30 shadow-xl sm:block sm:h-24 sm:w-24">
+              <div className="hidden h-20 w-20 overflow-hidden rounded-2xl border-[3px] border-white/30 shadow sm:block sm:h-24 sm:w-24">
                 {details.businessProfileImage ? (
                   <img
                     src={details.businessProfileImage}
@@ -314,7 +314,7 @@ export default function PublicStore() {
                 )}
               </div>
               <div className="flex-1">
-                <h1 className="font-serif text-2xl font-bold text-white drop-shadow-lg sm:text-3xl">
+                <h1 className="font-serif text-2xl font-bold  drop-shadow-lg sm:text-3xl">
                   {details.businessName}
                 </h1>
                 <div className="mt-1.5 flex flex-wrap items-center gap-2">
@@ -332,7 +332,7 @@ export default function PublicStore() {
                     />
                     {details.isOpenNow ? "Open Now" : "Closed"}
                   </span>
-                  <span className="text-xs text-white/80 drop-shadow-lg">
+                  <span className="text-xs opacity-80 drop-shadow-lg">
                     {details.isOpenNow
                       ? `Closes ${formatTime(details.closingTime)}`
                       : `Opens ${formatTime(details.openingTime)}`}
@@ -355,7 +355,7 @@ export default function PublicStore() {
             variants={itemVariants}
             className="-mt-6 mb-4 flex sm:hidden"
           >
-            <div className="h-20 w-20 overflow-hidden rounded-2xl border-[3px] border-surface shadow-xl">
+            <div className="h-20 w-20 overflow-hidden rounded-2xl border-[3px] border-surface shadow">
               {details.businessProfileImage ? (
                 <img
                   src={details.businessProfileImage}

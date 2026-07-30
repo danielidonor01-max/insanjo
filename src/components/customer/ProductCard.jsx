@@ -33,7 +33,7 @@ export default function ProductCard({
 
   return (
     <div
-      className={`group relative flex flex-col overflow-hidden rounded-2xl border border-line bg-surface shadow-sm transition-all duration-300 hover:shadow-md active:scale-[0.97] ${className}`}
+      className={`group relative flex flex-col overflow-hidden rounded-2xl border border-line bg-surface shadow transition-all duration-300 hover:shadow-md active:scale-[0.97] ${className}`}
       style={style}
     >
       {/* Image Section */}
