@@ -6,13 +6,13 @@ import webApi from '../services/webApi';
 import SEO from '../components/SEO';
 import Logo from '../components/Logo';
 
-const APP_CUSTOM_SCHEME = 'tops://reset-password';
+const APP_CUSTOM_SCHEME = 'tops://login';
 const APP_PACKAGE_NAME = 'com.lechi.insanjo';
 const APP_STORE_URL = 'https://insanjo.com/download';
 
 const getDeepLink = () => {
   if (/android/i.test(navigator.userAgent)) {
-    return `intent://reset-password#Intent;scheme=tops;package=${APP_PACKAGE_NAME};end`;
+    return `intent://login#Intent;scheme=tops;package=${APP_PACKAGE_NAME};end`;
   }
   return APP_CUSTOM_SCHEME;
 };
