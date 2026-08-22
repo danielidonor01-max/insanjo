@@ -13,6 +13,7 @@ import HashScrollHandler from './components/HashScrollHandler'
 import CustomerSetPassword from './pages/CustomerSetPassword'
 import VendorSetPassword from './pages/VendorSetPassword'
 import Newtest from './pages/newtest'
+import FindStores from './pages/FindStores'
 
 const App = () => {
   return (
@@ -22,6 +23,7 @@ const App = () => {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/test" element={<Newtest />} />
+        <Route path="/stores" element={<FindStores />} />
 
 
         <Route path="/customers/reset-password" element={<CustomerResetPassword />} />

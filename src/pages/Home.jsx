@@ -6,6 +6,7 @@ import HowItWorks from '../components/home/HowItWorks';
 import Audience from '../components/home/Audience';
 import Pricing from '../components/home/Pricing';
 import WaitlistCTA from '../components/home/WaitlistCTA';
+import StoreLocator from '../components/home/StoreLocator';
 import Footer from '../components/Footer';
 import Navbar from '../components/Navbar';
 import Hero from '../components/home/Hero';
@@ -33,6 +34,7 @@ export default function App() {
         <HowItWorks />
         <Audience />
         <Pricing />
+        <StoreLocator />
         <WaitlistCTA />
       </main>
       <Footer />
