@@ -14,6 +14,7 @@ import CustomerSetPassword from './pages/CustomerSetPassword'
 import VendorSetPassword from './pages/VendorSetPassword'
 import Newtest from './pages/newtest'
 import FindStores from './pages/FindStores'
+import Download from './pages/Download'
 
 const App = () => {
   return (
@@ -24,6 +25,7 @@ const App = () => {
         <Route path="/" element={<Home />} />
         <Route path="/test" element={<Newtest />} />
         <Route path="/stores" element={<FindStores />} />
+        <Route path="/download" element={<Download />} />
 
 
         <Route path="/customers/reset-password" element={<CustomerResetPassword />} />

@@ -369,8 +369,35 @@ const privacySections = [
         ),
     },
     {
+        id: 'sessions',
+        title: '2.9 Account Security & Sessions',
+        icon: Lock,
+        content: (
+            <>
+                <p className="text-sm leading-relaxed text-muted">
+                    Insanjo may maintain multiple active sessions for your account across supported devices. To help protect your account, we may recognize devices, require additional verification for new or unrecognized devices, and send security notifications when new sign-ins occur.
+                </p>
+                <ul className="mt-3 space-y-2">
+                    {[
+                        'We may recognize and track trusted devices used to access your account',
+                        'Additional verification may be required for new or unrecognized devices',
+                        'You may receive security notifications when new sign-ins occur',
+                        'You can review and revoke active sessions through your account security settings',
+                    ].map((item, i) => (
+                        <li key={i} className="flex items-start gap-2.5 text-sm text-muted">
+                            <span className="mt-0.5 grid h-5 w-5 shrink-0 place-items-center rounded-full bg-accent-soft">
+                                <span className="h-1.5 w-1.5 rounded-full bg-accent" />
+                            </span>
+                            <span>{item}</span>
+                        </li>
+                    ))}
+                </ul>
+            </>
+        ),
+    },
+    {
         id: 'international',
-        title: '2.9 International Users',
+        title: '2.10 International Users',
         icon: Globe,
         content: (
             <p className="text-sm leading-relaxed text-muted">
@@ -380,7 +407,7 @@ const privacySections = [
     },
     {
         id: 'policy-updates',
-        title: '2.10 Policy Updates',
+        title: '2.11 Policy Updates',
         icon: RefreshCw,
         content: (
             <p className="text-sm leading-relaxed text-muted">
@@ -390,7 +417,7 @@ const privacySections = [
     },
     {
         id: 'contact-privacy',
-        title: '2.11 Contact',
+        title: '2.12 Contact',
         icon: Mail,
         content: (
             <p className="text-sm leading-relaxed text-muted">
