@@ -87,7 +87,7 @@ export default function StoreLocator() {
             {/* Stylised "map" visual */}
             <div
               aria-hidden="true"
-              className="relative h-64 overflow-hidden rounded-3xl border border-line bg-gradient-to-br from-accent-soft via-canvas to-surface lg:h-80"
+              className="relative h-64 overflow-hidden rounded-3xl border border-line bg-linear-to-br from-accent-soft via-canvas to-surface lg:h-80"
             >
               {/* dotted grid */}
               <div
