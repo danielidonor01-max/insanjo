@@ -11,6 +11,7 @@ import Footer from '../components/Footer';
 import Navbar from '../components/Navbar';
 import Hero from '../components/home/Hero';
 import SEO from '../components/SEO';
+import FindStoresInYourArea from '../components/home/FindStoresInYourArea';
 
 export default function App() {
   useScrollReveal();
@@ -38,6 +39,8 @@ export default function App() {
         <WaitlistCTA />
       </main>
       <Footer />
+
+      <FindStoresInYourArea />
     </>
   );
 }
