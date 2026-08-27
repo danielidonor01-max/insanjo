@@ -180,13 +180,51 @@ export default function FindStores() {
   };
 
   /* ── Get user location ─────────────────────────── */
+  // useEffect(() => {
+  //   if (!("geolocation" in navigator)) {
+  //     setLocationError("Geolocation is not supported by your browser.");
+  //     setCenter({ lat: 6.5244, lng: 3.3792 });
+  //     setZoom(10);
+  //     return;
+  //   }
+  //   navigator.geolocation.getCurrentPosition(
+  //     (pos) => {
+  //       const c = { lat: pos.coords.latitude, lng: pos.coords.longitude };
+  //       setCoords(c);
+  //       setCenter(c);
+  //       setZoom(14);
+  //     },
+  //     () => {
+  //       const c = { lat: 6.5244, lng: 3.3792 };
+  //       setCoords(c);
+  //       setCenter(c);
+  //       setZoom(10);
+  //       setLocationError("Couldn't get your location. Showing Lagos, Nigeria.");
+  //     },
+  //     { enableHighAccuracy: true, timeout: 10000 },
+  //   );
+  // }, []);
   useEffect(() => {
-    if (!("geolocation" in navigator)) {
-      setLocationError("Geolocation is not supported by your browser.");
-      setCenter({ lat: 6.5244, lng: 3.3792 });
-      setZoom(10);
-      return;
-    }
+  if (!("geolocation" in navigator)) {
+    setLocationError("Geolocation is not supported by your browser.");
+    setCoords({ lat: 6.5244, lng: 3.3792 });
+    setCenter({ lat: 6.5244, lng: 3.3792 });
+    setZoom(10);
+    return;
+  }
+
+  const fallbackToLagos = (reason) => {
+    const c = { lat: 6.5244, lng: 3.3792 };
+    setCoords(c);
+    setCenter(c);
+    setZoom(10);
+    setLocationError(reason);
+  };
+
+  const handleError = (err) => {
+    console.error("Geolocation error:", err.code, err.message);
+    // Retry once with relaxed accuracy + longer timeout before giving up.
+    // Handles Android's slow GPS cold-start under high-accuracy mode.
     navigator.geolocation.getCurrentPosition(
       (pos) => {
         const c = { lat: pos.coords.latitude, lng: pos.coords.longitude };
@@ -194,16 +232,30 @@ export default function FindStores() {
         setCenter(c);
         setZoom(14);
       },
-      () => {
-        const c = { lat: 6.5244, lng: 3.3792 };
-        setCoords(c);
-        setCenter(c);
-        setZoom(10);
-        setLocationError("Couldn't get your location. Showing Lagos, Nigeria.");
+      (err2) => {
+        console.error("Geolocation retry failed:", err2.code, err2.message);
+        const reasons = {
+          1: "Location permission denied. Showing Lagos, Nigeria.",
+          2: "Location unavailable. Showing Lagos, Nigeria.",
+          3: "Location request timed out. Showing Lagos, Nigeria.",
+        };
+        fallbackToLagos(reasons[err2.code] || "Couldn't get your location. Showing Lagos, Nigeria.");
       },
-      { enableHighAccuracy: true, timeout: 10000 },
+      { enableHighAccuracy: false, timeout: 20000, maximumAge: 60000 },
     );
-  }, []);
+  };
+
+  navigator.geolocation.getCurrentPosition(
+    (pos) => {
+      const c = { lat: pos.coords.latitude, lng: pos.coords.longitude };
+      setCoords(c);
+      setCenter(c);
+      setZoom(14);
+    },
+    handleError,
+    { enableHighAccuracy: true, timeout: 8000, maximumAge: 0 },
+  );
+}, []);
 
   /* ── Fetch nearby businesses ───────────────────── */
   useEffect(() => {
