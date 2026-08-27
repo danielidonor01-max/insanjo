@@ -20,34 +20,36 @@ export default function DownloadAppPrompt({ variant = "sidebar", onDismiss }) {
   /* ── Banner variant (mobile overlay) ─────────────────── */
   if (variant === "banner") {
     return (
-      <div className="pointer-events-auto flex items-center gap-2.5 rounded-2xl border border-line bg-surface/95 p-2.5 pr-2 shadow-xl backdrop-blur">
-        <div className="grid h-9 w-9 shrink-0 place-items-center rounded-xl bg-accent-soft text-accent">
-          <Smartphone size={17} strokeWidth={1.9} />
+      <div className="pointer-events-auto overflow-hidden rounded-xl border border-line bg-surface/95 shadow-xl backdrop-blur">
+        <div className="flex items-center gap-2.5 p-2.5 pr-1.5">
+          <div className="grid h-9 w-9 shrink-0 place-items-center rounded-xl bg-accent-soft text-accent">
+            <Smartphone size={17} strokeWidth={1.9} />
+          </div>
+          <p className="min-w-0 flex-1 text-xs leading-snug text-ink">
+            Get the{" "}
+            <span className="font-semibold">Insanjo app</span> for maps, directions
+            &amp; deals on the go.
+          </p>
+          {onDismiss && (
+            <button
+              type="button"
+              onClick={onDismiss}
+              aria-label="Dismiss app reminder"
+              className="grid h-7 w-7 shrink-0 place-items-center rounded-full text-muted transition-colors hover:bg-line hover:text-ink"
+            >
+              <X size={14} />
+            </button>
+          )}
         </div>
-        <p className="flex-1 text-xs leading-snug text-ink">
-          Get the{" "}
-          <span className="font-semibold">Insanjo app</span> for maps, directions
-          &amp; deals on the go.
-        </p>
         <a
           href={APP_STORE_URL}
           target="_blank"
           rel="noreferrer"
           onClick={handleClick}
-          className="inline-flex shrink-0 items-center rounded-full bg-accent px-3 py-1.5 text-xs font-semibold text-white transition-colors hover:bg-accent-ink"
+          className="block border-t border-line bg-surface px-4 py-2.5 text-center text-xs font-semibold text-accent transition-colors hover:bg-accent-soft"
         >
-          Download
+          Download the app
         </a>
-        {onDismiss && (
-          <button
-            type="button"
-            onClick={onDismiss}
-            aria-label="Dismiss app reminder"
-            className="grid h-7 w-7 shrink-0 place-items-center rounded-full text-muted transition-colors hover:bg-line hover:text-ink"
-          >
-            <X size={14} />
-          </button>
-        )}
       </div>
     );
   }

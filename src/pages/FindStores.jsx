@@ -333,7 +333,7 @@ export default function FindStores() {
         .insanjo-store-icon, .insanjo-user-icon { background: transparent; border: none; }
       `}</style>
 
-      <div className="flex h-screen w-screen overflow-hidden bg-surface">
+      <div className="flex h-dvh w-dvw overflow-hidden bg-surface">
         {/* ── Sidebar (large screens) ─────────────────────────── */}
         <aside className="hidden min-h-0 w-95 shrink-0 flex-col border-r border-line bg-canvas lg:flex xl:w-105">
           <div className="flex items-center justify-between gap-3 border-b border-line px-5 py-4">
@@ -510,7 +510,7 @@ export default function FindStores() {
           </div>
 
           {!selected && !focused && !appPromptDismissed && (
-            <div className="absolute inset-x-4 top-36 z-30 mx-auto w-full max-w-md sm:top-40 lg:hidden">
+            <div className="absolute inset-x-4 top-36 z-30 mx-auto  max-w-md sm:top-40 lg:hidden">
               <DownloadAppPrompt variant="banner" onDismiss={dismissAppPrompt} />
             </div>
           )}
