@@ -1,3 +1,20 @@
+# ---------------------------------------------------------------------------
+# Correct MIME types FIRST (prevents "Failed to load module script ... MIME
+# type of 'text/html'" — ensures .js serves as JavaScript, not the SPA
+# fallback, even when a file is missing / being rewritten).
+# ---------------------------------------------------------------------------
+AddType application/javascript .js .mjs
+AddType text/css .css
+AddType application/json .json
+AddType application/wasm .wasm
+AddType image/svg+xml .svg
+AddType image/png .png
+AddType text/javascript .js .mjs
+
+<IfModule mod_mime.c>
+    AddHandler application/javascript .js .mjs
+</IfModule>
+
 <IfModule mod_rewrite.c>
     RewriteEngine On
     RewriteBase /
