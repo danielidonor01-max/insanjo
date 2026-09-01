@@ -1,33 +1,18 @@
 import { useCallback } from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
 import { Linkedin, Instagram, Sun, Moon } from 'lucide-react';
 import Logo from './Logo';
 import { useTheme } from '../hooks/useTheme';
-
-const LINKS = [
-  { label: 'Features', href: '#features' },
-  { label: 'How it works', href: '#how' },
-  { label: "Who it's for", href: '#audience' },
-  { label: 'Pricing', href: '#pricing' },
-];
+import { useSectionNav } from '../hooks/useSectionNav';
+import { NAV_LINKS } from '../constants/navigation';
 
 export default function Footer() {
   const { isDark, toggleTheme } = useTheme();
-  const navigate = useNavigate();
-  const location = useLocation();
+  const { scrollToSection } = useSectionNav();
 
   const handleNavClick = useCallback((e, href) => {
     e.preventDefault();
-    const sectionId = href.replace('#', '');
-    if (location.pathname === '/') {
-      const el = document.getElementById(sectionId);
-      if (el) {
-        el.scrollIntoView({ behavior: 'smooth' });
-      }
-    } else {
-      navigate(`/${href}`);
-    }
-  }, [location.pathname, navigate]);
+    scrollToSection(href);
+  }, [scrollToSection]);
 
   return (
     <footer className="border-t border-line px-5 py-12 sm:px-8">
@@ -36,7 +21,7 @@ export default function Footer() {
           <Logo height={28} />
 
           <nav className="flex flex-wrap gap-x-7 gap-y-3">
-            {LINKS.map((l) => (
+            {NAV_LINKS.map((l) => (
               <a
                 key={l.href}
                 href={l.href}

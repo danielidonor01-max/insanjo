@@ -16,6 +16,7 @@ import Footer from "../components/Footer";
 import Loader from "../components/customer/Loader";
 import ProductCard from "../components/customer/ProductCard";
 import { getStoreDetails } from "../services/store";
+import { formatPrice } from "../utils/currency";
 
 /* ───────────────────────────────────────────
    Helpers
@@ -29,29 +30,6 @@ const formatTime = (time) => {
   const ampm = hour >= 12 ? "PM" : "AM";
   hour = hour % 12 || 12;
   return `${hour}:${minute} ${ampm}`;
-};
-
-const getCurrencySymbol = (currency) => {
-  const map = {
-    NGN: "₦",
-    USD: "$",
-    EUR: "€",
-    GBP: "£",
-    GHS: "₵",
-    KES: "KSh",
-    ZAR: "R",
-    XOF: "CFA",
-    XAF: "FCFA",
-  };
-  return map[currency] || currency || "₦";
-};
-
-const formatPrice = (price, currency = "NGN") => {
-  const num = Number(price ?? 0);
-  return `${getCurrencySymbol(currency)} ${num.toLocaleString(undefined, {
-    minimumFractionDigits: 2,
-    maximumFractionDigits: 2,
-  })}`;
 };
 
 /* ───────────────────────────────────────────

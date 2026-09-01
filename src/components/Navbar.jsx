@@ -1,24 +1,16 @@
 
 import { useEffect, useState, useCallback } from "react";
 import { Menu, X, Moon, Sun } from "lucide-react";
-import { useNavigate, useLocation } from "react-router-dom";
 import Logo from "./Logo";
 import { useTheme } from "../hooks/useTheme";
-
-
-const LINKS = [
-  { label: 'Features', href: '#features' },
-  { label: 'How it works', href: '#how' },
-  { label: "Who it's for", href: '#audience' },
-  { label: 'Pricing', href: '#pricing' },
-];
+import { useSectionNav } from "../hooks/useSectionNav";
+import { NAV_LINKS } from "../constants/navigation";
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
   const { isDark, toggleTheme } = useTheme();
-  const navigate = useNavigate();
-  const location = useLocation();
+  const { scrollToSection } = useSectionNav();
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 12);
@@ -30,31 +22,14 @@ export default function Navbar() {
   const handleNavClick = useCallback((e, href) => {
     e.preventDefault();
     setOpen(false);
-    const sectionId = href.replace('#', '');
-    if (location.pathname === '/') {
-      // Already on home — scroll to section
-      const el = document.getElementById(sectionId);
-      if (el) {
-        el.scrollIntoView({ behavior: 'smooth' });
-      }
-    } else {
-      // Navigate to home with hash — HomePage will handle the scroll
-      navigate(`/${href}`);
-    }
-  }, [location.pathname, navigate]);
+    scrollToSection(href);
+  }, [scrollToSection]);
 
   const handleCtaClick = useCallback((e) => {
     e.preventDefault();
     setOpen(false);
-    if (location.pathname === '/') {
-      const el = document.getElementById('waitlist');
-      if (el) {
-        el.scrollIntoView({ behavior: 'smooth' });
-      }
-    } else {
-      navigate('/#waitlist');
-    }
-  }, [location.pathname, navigate]);
+    scrollToSection('#waitlist');
+  }, [scrollToSection]);
 
   return (
     <header
@@ -68,7 +43,7 @@ export default function Navbar() {
 
         {/* Centered links */}
         <div className="absolute left-1/2 hidden -translate-x-1/2 items-center gap-9 md:flex">
-          {LINKS.map((l) => (
+          {NAV_LINKS.map((l) => (
             <a
               key={l.href}
               href={l.href}
@@ -129,7 +104,7 @@ export default function Navbar() {
           } transition-[max-height] duration-300 ease-out`}
       >
         <div className="flex flex-col gap-1 px-5 py-4">
-          {LINKS.map((l) => (
+          {NAV_LINKS.map((l) => (
             <a
               key={l.href}
               href={l.href}
