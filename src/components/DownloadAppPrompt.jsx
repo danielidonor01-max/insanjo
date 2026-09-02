@@ -11,11 +11,26 @@ export const APP_STORE_URL = "https://insanjo.com/download";
  *  - "sidebar"  → vertical card designed to sit inside a side panel (desktop).
  *  - "compact"  → single-line CTA pill.
  *  - "banner"   → slim horizontal strip for overlays (mobile), dismissible.
+ *  - "icon"     → collapsed round button (mobile), reopens the banner.
  */
-export default function DownloadAppPrompt({ variant = "sidebar", onDismiss }) {
+export default function DownloadAppPrompt({ variant = "sidebar", onDismiss, onOpen }) {
   const handleClick = () => {
     trackEvent("app_download_click", { source: "find_stores", variant });
   };
+
+  /* ── Icon variant (collapsed banner, mobile overlay) ──── */
+  if (variant === "icon") {
+    return (
+      <button
+        type="button"
+        onClick={onOpen}
+        aria-label="Show Insanjo app download"
+        className="grid h-11 w-11 shrink-0 place-items-center rounded-full bg-accent text-white shadow-[0_10px_24px_-8px_rgba(6,111,242,0.7)] transition-transform hover:scale-105 active:scale-95"
+      >
+        <Smartphone size={18} strokeWidth={1.9} />
+      </button>
+    );
+  }
 
   /* ── Banner variant (mobile overlay) ─────────────────── */
   if (variant === "banner") {

@@ -157,14 +157,16 @@ export default function FindStores() {
   const [center, setCenter] = useState(null);
   const [zoom, setZoom] = useState(14);
   const [loadingStores, setLoadingStores] = useState(false);
-  const [appPromptDismissed, setAppPromptDismissed] = useState(
-    () => localStorage.getItem("insanjo:findstores:appPromptDismissed") === "1"
-  );
+  const [appPromptDismissed, setAppPromptDismissed] = useState(false);
 
   const dismissAppPrompt = () => {
     setAppPromptDismissed(true);
-    localStorage.setItem("insanjo:findstores:appPromptDismissed", "1");
     trackEvent("app_prompt_dismiss", { source: "find_stores" });
+  };
+
+  const restoreAppPrompt = () => {
+    setAppPromptDismissed(false);
+    trackEvent("app_prompt_restore", { source: "find_stores" });
   };
 
   /* ── "Get the Insanjo app" modal state ───────────────── */ 
@@ -472,16 +474,21 @@ export default function FindStores() {
           </div>
 
           <div className="absolute inset-x-0 top-20 z-30 flex justify-center px-4 sm:top-24 lg:hidden">
-            <div className="w-full max-w-md">
-              <StoreSearch
-                query={query}
-                onQueryChange={setQuery}
-                focused={focused}
-                onFocusedChange={setFocused}
-                filtered={filtered}
-                onSelect={selectStore}
-                onClear={() => setQuery("")}
-              />
+            <div className="flex w-full max-w-md items-center gap-2">
+              <div className="min-w-0 flex-1">
+                <StoreSearch
+                  query={query}
+                  onQueryChange={setQuery}
+                  focused={focused}
+                  onFocusedChange={setFocused}
+                  filtered={filtered}
+                  onSelect={selectStore}
+                  onClear={() => setQuery("")}
+                />
+              </div>
+              {appPromptDismissed && !selected && !focused && (
+                <DownloadAppPrompt variant="icon" onOpen={restoreAppPrompt} />
+              )}
             </div>
           </div>
 
