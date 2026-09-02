@@ -15,33 +15,7 @@ import SEO from "../components/SEO";
 import Footer from "../components/Footer";
 import Loader from "../components/customer/Loader";
 import { getProdDetails } from "../services/store";
-
-/* ───────────────────────────────────────────
-   Helpers
-   ─────────────────────────────────────────── */
-
-const getCurrencySymbol = (currency) => {
-  const map = {
-    NGN: "₦",
-    USD: "$",
-    EUR: "€",
-    GBP: "£",
-    GHS: "₵",
-    KES: "KSh",
-    ZAR: "R",
-    XOF: "CFA",
-    XAF: "FCFA",
-  };
-  return map[currency] || currency || "₦";
-};
-
-const formatPrice = (price, currency = "NGN") => {
-  const num = Number(price ?? 0);
-  return `${getCurrencySymbol(currency)} ${num.toLocaleString(undefined, {
-    minimumFractionDigits: 2,
-    maximumFractionDigits: 2,
-  })}`;
-};
+import { formatPrice } from "../utils/currency";
 
 /* ───────────────────────────────────────────
    Component

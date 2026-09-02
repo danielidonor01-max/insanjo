@@ -5,6 +5,8 @@ import { CheckCircle2, XCircle, AlertCircle, Shield, ShieldCheck, Swords, Zap } 
 /* ───────────────────────────────────────────
    Validation rules
    ─────────────────────────────────────────── */
+const SPECIAL_CHAR_REGEX = /[!@#$%^&*(),.?":{}|<>_\-~`[\]\\/;'+=\s]/;
+
 const RULES = [
   {
     key: 'minLength',
@@ -29,7 +31,7 @@ const RULES = [
   {
     key: 'special',
     label: 'One special character',
-    test: (pw) => /[!@#$%^&*(),.?":{}|<>_\-~`[\]\\/;'+=\s]/.test(pw),
+    test: (pw) => SPECIAL_CHAR_REGEX.test(pw),
   },
 ];
 
@@ -44,7 +46,7 @@ const getStrength = (pw) => {
   if (/[A-Z]/.test(pw)) score += 1;
   if (/[a-z]/.test(pw)) score += 1;
   if (/\d/.test(pw)) score += 1;
-  if (/[!@#$%^&*(),.?":{}|<>_\-~`[\]\\/;'+=\s]/.test(pw)) score += 1;
+  if (SPECIAL_CHAR_REGEX.test(pw)) score += 1;
 
   if (score <= 2) return { score, label: 'Weak', color: 'text-red-500', barColor: 'bg-red-500', barWidth: '20%', icon: AlertCircle };
   if (score <= 3) return { score, label: 'Fair', color: 'text-orange-500', barColor: 'bg-orange-500', barWidth: '40%', icon: Shield };
