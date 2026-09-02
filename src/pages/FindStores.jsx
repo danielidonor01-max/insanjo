@@ -180,30 +180,6 @@ export default function FindStores() {
   };
 
   /* ── Get user location ─────────────────────────── */
-  // useEffect(() => {
-  //   if (!("geolocation" in navigator)) {
-  //     setLocationError("Geolocation is not supported by your browser.");
-  //     setCenter({ lat: 6.5244, lng: 3.3792 });
-  //     setZoom(10);
-  //     return;
-  //   }
-  //   navigator.geolocation.getCurrentPosition(
-  //     (pos) => {
-  //       const c = { lat: pos.coords.latitude, lng: pos.coords.longitude };
-  //       setCoords(c);
-  //       setCenter(c);
-  //       setZoom(14);
-  //     },
-  //     () => {
-  //       const c = { lat: 6.5244, lng: 3.3792 };
-  //       setCoords(c);
-  //       setCenter(c);
-  //       setZoom(10);
-  //       setLocationError("Couldn't get your location. Showing Lagos, Nigeria.");
-  //     },
-  //     { enableHighAccuracy: true, timeout: 10000 },
-  //   );
-  // }, []);
   useEffect(() => {
   if (!("geolocation" in navigator)) {
     setLocationError("Geolocation is not supported by your browser.");

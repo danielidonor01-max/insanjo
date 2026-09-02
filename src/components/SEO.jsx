@@ -1,5 +1,3 @@
-// components/SEO.jsx
-
 import { Helmet } from "react-helmet-async";
 
 export default function SEO({
@@ -58,8 +56,6 @@ export default function SEO({
 
             {/* Search Engines */}
             <meta name="robots" content="index, follow" />
-
-            <link rel="canonical" href="https://insanjo.com/" />
 
             {/* Theme */}
             <meta name="theme-color" content="#0B6CF2" />
