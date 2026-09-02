@@ -170,3 +170,9 @@
     animation: none !important;
   }
 }
+
+/* prevent ios zoom */
+input{
+  font-size: 16px !important;
+  touch-action: manipulation !important;
+}
