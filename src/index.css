@@ -1,5 +1,10 @@
 @import 'tailwindcss';
 
+/* Theme is toggled via a `.dark` class on <html> (see ThemeContext), not
+   the OS color-scheme. Without this, Tailwind's `dark:` variant defaults
+   to `prefers-color-scheme` and silently ignores the in-app toggle. */
+@custom-variant dark (&:where(.dark, .dark *));
+
 /* Insanjo design system 
    * Light editorial-minimal premium, on the Insanjo brand palette.
    
@@ -8,6 +13,7 @@
 @theme {
   --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
   --font-serif: "Fraunces", ui-serif, Georgia, serif;
+  --font-hand: "Caveat", cursive;
 
   /* Semantic tokens */
   --color-canvas: var(--canvas);
@@ -29,6 +35,26 @@
 
   --radius-xl: 1.25rem;
   --radius-2xl: 1.75rem;
+
+  /* ── Storefront/catalog design system ──────────────────
+     Scoped token set for the vendor catalog UI (sidebar, store
+     header, product grid). Warm-neutral surfaces, no gradients.
+     The brand blue (--color-accent) is reused as the one accent. */
+  --color-store-bg: var(--store-bg);
+  --color-store-surface: var(--store-surface);
+  --color-store-surface-hover: var(--store-surface-hover);
+  --color-store-fg: var(--store-fg);
+  --color-store-muted-fg: var(--store-muted-fg);
+  --color-store-muted: var(--store-muted);
+  --color-store-border: var(--store-border);
+  --color-store-primary: var(--color-accent);
+  --color-store-primary-fg: #ffffff;
+  --color-store-destructive: var(--store-destructive);
+
+  --radius-store-control: 0.5625rem;
+  --radius-store-button: 0.6875rem;
+  --radius-store-card: 1rem;
+  --radius-store-section: 1.375rem;
 }
 
 
@@ -53,6 +79,22 @@
     #066ff2 0%,
     #05f1db 100%
   );
+
+  /* Storefront palette — warm neutral, light */
+  --store-bg: #f7f7f5;
+  --store-surface: #ffffff;
+  --store-surface-hover: #f1f1ee;
+  --store-fg: #111111;
+  --store-muted-fg: #6b6b6b;
+  --store-muted: #929292;
+  --store-border: #e7e7e4;
+  --store-destructive: #dc2626;
+
+  /* Hero pill-pattern tones, light — white base, subtle transparent tints */
+  --pattern-base: #ffffff;
+  --pattern-royal: rgba(6, 111, 242, 0.12);
+  --pattern-cyan: rgba(5, 241, 219, 0.16);
+  --pattern-navy: rgba(4, 67, 149, 0.07);
 }
 
 /* Dark mode pallette */
@@ -76,6 +118,24 @@
     #066ff2 0%,
     #05f1db 100%
   );
+
+  /* Storefront palette, dark — reuses the site's original navy dark
+     theme (not a separate grey palette) so the store matches the
+     rest of the app in dark mode. */
+  --store-bg: var(--canvas);
+  --store-surface: var(--surface);
+  --store-surface-hover: #13253c;
+  --store-fg: var(--ink);
+  --store-muted-fg: var(--muted);
+  --store-muted: var(--faint);
+  --store-border: var(--line);
+  --store-destructive: #f87171;
+
+  /* Hero pill-pattern tones, dark — the bold, saturated brand version */
+  --pattern-base: #044395;
+  --pattern-royal: #066ff2;
+  --pattern-cyan: #05f1db;
+  --pattern-navy: #044395;
 }
 
 @layer base {
@@ -153,6 +213,23 @@
   }
   .animate-breathe {
     animation: breathe 5s ease-in-out infinite;
+  }
+
+  /* Dialog/sheet entrance (Radix Dialog.Content — CSS animation runs
+     automatically on mount, no plugin or forceMount needed). */
+  @keyframes overlay-in {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+  @keyframes rise-in {
+    from { opacity: 0; transform: translateY(16px) scale(0.99); }
+    to { opacity: 1; transform: translateY(0) scale(1); }
+  }
+  .animate-overlay-in {
+    animation: overlay-in 180ms ease-out;
+  }
+  .animate-rise-in {
+    animation: rise-in 220ms cubic-bezier(0.22, 1, 0.36, 1);
   }
 }
 
