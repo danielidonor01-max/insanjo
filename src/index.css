@@ -95,6 +95,7 @@
   --pattern-royal: rgba(6, 111, 242, 0.12);
   --pattern-cyan: rgba(5, 241, 219, 0.16);
   --pattern-navy: rgba(4, 67, 149, 0.07);
+  --pattern-glow-opacity: 0.35;
 }
 
 /* Dark mode pallette */
@@ -136,6 +137,7 @@
   --pattern-royal: #066ff2;
   --pattern-cyan: #05f1db;
   --pattern-navy: #044395;
+  --pattern-glow-opacity: 0.55;
 }
 
 @layer base {

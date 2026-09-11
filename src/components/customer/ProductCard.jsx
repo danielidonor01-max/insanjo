@@ -54,7 +54,7 @@ export default function ProductCard({
   return (
     <div
       className={cn(
-        "group relative overflow-hidden rounded-store-card border border-store-border bg-store-surface transition-colors hover:border-store-fg/25",
+        "group relative overflow-hidden rounded-store-card border border-store-border/70 bg-store-surface/90 backdrop-blur-sm transition-all duration-300 hover:-translate-y-0.5 hover:border-store-fg/20 hover:shadow-[0_12px_32px_-12px_var(--pattern-royal)] dark:hover:shadow-black/40",
         isList ? "flex items-stretch gap-4 p-3 sm:gap-5 sm:p-4" : "flex flex-col",
       )}
     >
@@ -118,8 +118,8 @@ export default function ProductCard({
             {shortDescription}
           </p>
         )}
-        <div className="mt-1 flex items-center gap-2">
-          <span className="text-sm font-bold text-store-fg">{price}</span>
+        <div className="mt-1.5 flex items-center gap-2">
+          <span className="text-base font-bold tracking-tight text-store-fg">{price}</span>
           {category && <span className="text-xs text-store-muted">· {category}</span>}
         </div>
       </button>

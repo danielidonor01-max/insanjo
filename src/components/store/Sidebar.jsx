@@ -1,5 +1,5 @@
 import { Link, useLocation } from "react-router-dom";
-import { Home, Compass, Store, Download, X, ChevronsLeft, ChevronsRight } from "lucide-react";
+import { Home, Compass, Store, Download, X, ChevronsLeft, ChevronsRight, ArrowRight, Sparkles } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import * as Tooltip from "@radix-ui/react-tooltip";
 import { InsanjoMark } from "../Logo";
@@ -100,6 +100,37 @@ function NavGroups({ pathname, collapsed, onNavigate }) {
   );
 }
 
+function SidebarPromo() {
+  return (
+    <Link
+      to="/download"
+      className="group relative mt-3 block overflow-hidden rounded-store-card border border-store-border transition-colors hover:border-store-fg/20"
+    >
+      <div aria-hidden="true" className="pointer-events-none absolute inset-0 overflow-hidden">
+        <div
+          className="absolute -right-8 -top-10 h-28 w-28 rounded-full blur-2xl"
+          style={{ background: "var(--pattern-royal)", opacity: "var(--pattern-glow-opacity)" }}
+        />
+        <div
+          className="absolute -bottom-10 -left-6 h-24 w-24 rounded-full blur-2xl"
+          style={{ background: "var(--pattern-cyan)", opacity: "calc(var(--pattern-glow-opacity) * 0.7)" }}
+        />
+      </div>
+      <div className="relative z-10 flex flex-col gap-1.5 bg-store-surface/60 p-4 backdrop-blur-sm">
+        <Sparkles size={15} className="text-store-primary" />
+        <p className="text-sm font-semibold text-store-fg">Get the Insanjo app</p>
+        <p className="text-xs leading-relaxed text-store-muted-fg">
+          Discover more vendors near you, on the go.
+        </p>
+        <span className="mt-1 inline-flex items-center gap-1 text-xs font-semibold text-store-primary">
+          Download
+          <ArrowRight size={12} className="transition-transform group-hover:translate-x-0.5" />
+        </span>
+      </div>
+    </Link>
+  );
+}
+
 function BrandMark({ collapsed }) {
   return (
     <Link to="/" className={cn("flex items-center gap-2.5", collapsed && "justify-center")}>
@@ -134,6 +165,7 @@ export default function Sidebar({ collapsed, onToggleCollapse, mobileOpen, onMob
 
         <div className="mt-8 flex-1 overflow-y-auto">
           <NavGroups pathname={pathname} collapsed={collapsed} />
+          {!collapsed && <SidebarPromo />}
         </div>
 
         <div className="flex flex-col gap-0.5 border-t border-store-border pt-3">
@@ -199,6 +231,7 @@ export default function Sidebar({ collapsed, onToggleCollapse, mobileOpen, onMob
 
               <div className="mt-8 flex-1 overflow-y-auto">
                 <NavGroups pathname={pathname} collapsed={false} onNavigate={onMobileClose} />
+                <SidebarPromo />
               </div>
             </motion.aside>
           </>

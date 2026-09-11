@@ -168,7 +168,14 @@ export default function PublicStore() {
           />
         </main>
 
-        <Footer />
+        <div className="relative overflow-hidden">
+          <div
+            aria-hidden="true"
+            className="pointer-events-none absolute -bottom-20 -left-16 h-56 w-56 rounded-full blur-3xl"
+            style={{ background: "var(--pattern-royal)", opacity: "calc(var(--pattern-glow-opacity) * 0.4)" }}
+          />
+          <Footer />
+        </div>
       </StoreLayout>
 
       <ProductQuickView
