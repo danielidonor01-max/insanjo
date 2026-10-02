@@ -1,4 +1,5 @@
 import { useCallback } from 'react';
+import { Link } from 'react-router-dom';
 import { Linkedin, Instagram, Sun, Moon } from 'lucide-react';
 import Logo from './Logo';
 import { useTheme } from '../hooks/useTheme';
@@ -31,6 +32,12 @@ export default function Footer() {
                 {l.label}
               </a>
             ))}
+            <Link
+              to="/invite"
+              className="text-sm font-medium text-muted transition-colors hover:text-ink"
+            >
+              Invite vendors
+            </Link>
           </nav>
 
           <div className="flex items-center gap-3">

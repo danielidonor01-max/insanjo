@@ -1,9 +1,11 @@
 
 import { useEffect, useState, useCallback } from "react";
+import { Link } from "react-router-dom";
 import { Menu, X, Moon, Sun } from "lucide-react";
 import Logo from "./Logo";
 import { useTheme } from "../hooks/useTheme";
 import { useSectionNav } from "../hooks/useSectionNav";
+import { useAuth } from "../hooks/useAuth";
 import { NAV_LINKS } from "../constants/navigation";
 
 export default function Navbar() {
@@ -11,6 +13,12 @@ export default function Navbar() {
   const [open, setOpen] = useState(false);
   const { isDark, toggleTheme } = useTheme();
   const { scrollToSection } = useSectionNav();
+  const { isAuthenticated, logout } = useAuth();
+
+  // Logged out: just Sign up (the signup page links to Log in). Logged in: Invite vendors + Log out.
+  const accountLink = isAuthenticated
+    ? { to: "/invite", label: "Invite vendors" }
+    : { to: "/signup", label: "Sign up" };
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 12);
@@ -66,6 +74,23 @@ export default function Navbar() {
             {isDark ? <Sun size={18} /> : <Moon size={18} />}
           </button>
 
+          {isAuthenticated && (
+            <button
+              type="button"
+              onClick={logout}
+              className="hidden rounded-full px-3 py-2.5 text-sm font-medium text-muted transition-colors hover:text-ink lg:inline-flex"
+            >
+              Log out
+            </button>
+          )}
+
+          <Link
+            to={accountLink.to}
+            className="rounded-full px-4 py-2.5 text-sm font-semibold text-ink transition-colors hover:text-accent"
+          >
+            {accountLink.label}
+          </Link>
+
           <a
             href="#waitlist"
             onClick={handleCtaClick}
@@ -114,6 +139,27 @@ export default function Navbar() {
               {l.label}
             </a>
           ))}
+          <div className="mt-2 flex gap-2">
+            <Link
+              to={accountLink.to}
+              onClick={() => setOpen(false)}
+              className="inline-flex flex-1 items-center justify-center rounded-full border border-line px-5 py-3 text-sm font-semibold text-ink"
+            >
+              {accountLink.label}
+            </Link>
+            {isAuthenticated && (
+              <button
+                type="button"
+                onClick={() => {
+                  setOpen(false);
+                  logout();
+                }}
+                className="inline-flex flex-1 items-center justify-center rounded-full border border-line px-5 py-3 text-sm font-semibold text-muted"
+              >
+                Log out
+              </button>
+            )}
+          </div>
           <a
             href="#waitlist"
             onClick={handleCtaClick}
