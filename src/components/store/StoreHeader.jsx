@@ -116,7 +116,7 @@ function PillPattern({ className = "" }) {
 function Copy({ withAccentDot = false, storeName = '' }) {
   const name = (storeName || '').trim();
   return (
-    <div className="relative z-20 max-w-sm">
+    <div className="relative flex flex-col justify-center z-20 max-w-sm">
       {withAccentDot && (
         <span className="mb-3 inline-flex items-center gap-1.5 text-[11px] font-semibold uppercase tracking-[0.16em] text-store-primary dark:text-cyan-300">
           <Sparkles size={12} />
@@ -271,7 +271,7 @@ export default function StoreHeader({ details }) {
         className="relative isolate overflow-hidden rounded-store-section bg-store-surface"
       >
         <HeroGlow />
-        {hasCover ? <PhotoHero details={details} /> : <PatternHero />}
+        {hasCover ? <PhotoHero details={details} /> : <PatternHero details={details} />}
       </motion.section>
     </div>
   );
