@@ -15,6 +15,11 @@ import VendorSetPassword from './pages/VendorSetPassword'
 import Newtest from './pages/newtest'
 import FindStores from './pages/FindStores'
 import Download from './pages/Download'
+import VendorSignup from './pages/VendorSignup'
+import InviteVendors from './pages/InviteVendors'
+import Login from './pages/Login'
+import CustomerReferral from './pages/CustomerReferral'
+import VendorReferral from './pages/VendorReferral'
 
 const App = () => {
   return (
@@ -26,6 +31,17 @@ const App = () => {
         <Route path="/test" element={<Newtest />} />
         <Route path="/stores" element={<FindStores />} />
         <Route path="/download" element={<Download />} />
+
+        {/* /auth.html is the referral link shared from the app: /auth.html?ref=INS… */}
+        <Route path="/auth.html" element={<VendorSignup />} />
+        <Route path="/signup" element={<VendorSignup />} />
+        <Route path="/login" element={<Login />} />
+
+        {/* Dedicated app referral landing pages: /auth/cus?ref=… and /auth/ven?ref=… */}
+        <Route path="/auth/cus" element={<CustomerReferral />} />
+        <Route path="/auth/ven" element={<VendorReferral />} />
+
+        <Route path="/invite" element={<InviteVendors />} />
 
 
         <Route path="/customers/reset-password" element={<CustomerResetPassword />} />
