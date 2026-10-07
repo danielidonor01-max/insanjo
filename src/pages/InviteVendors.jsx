@@ -67,9 +67,9 @@ export default function InviteVendors() {
   if (status !== 'authenticated') return <Navigate to="/login?next=%2Finvite" replace />;
 
   const code = user.referralCode;
-  const link = buildInviteLink(code);
-  const message = buildInviteMessage(code);
-  const invitePath = `/auth.html?ref=${encodeURIComponent(code)}`;
+  const link = buildInviteLink(code, 'vendor');
+  const message = buildInviteMessage(code, 'vendor');
+  const invitePath = `/auth/ven?ref=${encodeURIComponent(code)}`;
 
   const handleCopy = async (key, text) => {
     if (await copyText(text)) {

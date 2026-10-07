@@ -136,15 +136,16 @@ export default function PublicStore() {
 
       <StoreLayout searchValue={searchValue} onSearchChange={setSearchValue}>
         <main className="mx-auto max-w-6xl px-5 pb-16 sm:px-8">
-          <StoreHeader details={details} />
+         {!searchValue&& <StoreHeader details={details} />}
 
-          <StoreLocation
-            businessName={details.businessName}
-            address={details.businessAddress}
-            phone={details.businessPhone}
-            latitude={details.latitude}
-            longitude={details.longitude}
-          />
+          {!searchValue && (
+            <StoreLocation
+              businessName={details.businessName}
+              address={details.businessAddress}
+              phone={details.businessPhone}
+              latitude={details.latitude}
+              longitude={details.longitude}
+          />)}
 
           <CatalogToolbar
             totalCount={inventory.length}

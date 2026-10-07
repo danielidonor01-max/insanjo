@@ -18,6 +18,8 @@ import Download from './pages/Download'
 import VendorSignup from './pages/VendorSignup'
 import InviteVendors from './pages/InviteVendors'
 import Login from './pages/Login'
+import CustomerReferral from './pages/CustomerReferral'
+import VendorReferral from './pages/VendorReferral'
 
 const App = () => {
   return (
@@ -34,6 +36,11 @@ const App = () => {
         <Route path="/auth.html" element={<VendorSignup />} />
         <Route path="/signup" element={<VendorSignup />} />
         <Route path="/login" element={<Login />} />
+
+        {/* Dedicated app referral landing pages: /auth/cus?ref=… and /auth/ven?ref=… */}
+        <Route path="/auth/cus" element={<CustomerReferral />} />
+        <Route path="/auth/ven" element={<VendorReferral />} />
+
         <Route path="/invite" element={<InviteVendors />} />
 
 

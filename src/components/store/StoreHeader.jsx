@@ -1,6 +1,6 @@
-import { useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { motion } from "framer-motion";
-import { Sparkles } from "lucide-react";
+import { ArrowLeft, ArrowRight, Sparkles } from "lucide-react";
 
 function HandDrawnUnderline({ className = "" }) {
   return (
@@ -113,7 +113,8 @@ function PillPattern({ className = "" }) {
   );
 }
 
-function Copy({ withAccentDot = false }) {
+function Copy({ withAccentDot = false, storeName = '' }) {
+  const name = (storeName || '').trim();
   return (
     <div className="relative z-20 max-w-sm">
       {withAccentDot && (
@@ -123,9 +124,19 @@ function Copy({ withAccentDot = false }) {
         </span>
       )}
       <h1 className="font-sans text-[2.1rem] font-extrabold leading-[1.08] tracking-tight text-store-fg drop-shadow-sm sm:text-5xl">
-        Your next favourite find
-        <br />
-        <span className="text-store-primary dark:text-cyan-300">is just a click away.</span>
+        {name ? (
+          <>
+            Welcome to
+            <br />
+            <span className="text-store-primary dark:text-cyan-300">{name}</span>
+          </>
+        ) : (
+          <>
+            Your next favourite find
+            <br />
+            <span className="text-store-primary dark:text-cyan-300">is just a click away.</span>
+          </>
+        )}
       </h1>
 
       <p className="mt-4 text-sm leading-relaxed text-store-muted-fg sm:text-base">
@@ -137,13 +148,13 @@ function Copy({ withAccentDot = false }) {
   );
 }
 
-function PatternHero() {
+function PatternHero({ details }) {
   return (
     <div className="relative min-h-96 w-full overflow-hidden sm:min-h-104">
       <PillPattern className="absolute inset-0 h-full w-full" />
 
       <div className="relative z-10 flex h-full flex-col justify-center gap-4 px-6 py-10 sm:px-10 sm:py-14">
-        <Copy withAccentDot />
+        <Copy withAccentDot storeName={details?.businessName} />
 
         <div className="mt-2 flex items-center gap-2 self-end drop-shadow-sm sm:mr-4">
           <Sparkles className="h-4 w-4 text-store-primary/80 dark:text-cyan-200/90" />
@@ -158,32 +169,89 @@ function PatternHero() {
 }
 
 function PhotoHero({ details }) {
+  const images = [details.coverImage1, details.coverImage2].filter(Boolean);
+  const count = images.length;
+  const [index, setIndex] = useState(0);
+  const [paused, setPaused] = useState(false);
+
+  // Auto-advance the carousel, pausing while the user hovers the panel.
+  useEffect(() => {
+    if (paused || count <= 1) return;
+    const t = setInterval(() => setIndex((i) => (i + 1) % count), 4500);
+    return () => clearInterval(t);
+  }, [paused, count]);
+
+  // Reset to the first slide if the store changes.
+  useEffect(() => {
+    setIndex(0);
+  }, [images.join('|')]);
+
+  const go = (dir) => setIndex((i) => (i + dir + count) % count);
+
   return (
-    <div className="grid grid-cols-1 items-center gap-8 px-6 py-10 sm:px-10 sm:py-14 lg:grid-cols-[0.95fr_1.35fr] lg:gap-6">
-      <Copy />
+    <div className="flex min-h-96 w-full flex-col gap-8 px-6 py-10 sm:min-h-104 sm:px-10 sm:py-14 lg:flex-row lg:gap-10">
+      <Copy storeName={details?.businessName} />
 
-      <div className="relative z-10 flex min-h-72 w-full items-center justify-center gap-3 sm:min-h-80 sm:gap-5 lg:min-h-96 lg:justify-end">
-        <div className="relative w-[85%] max-w-lg flex-1 rotate-2 overflow-hidden rounded-2xl shadow-xl sm:w-[78%]">
-          <img
-            src={details.coverImage1}
-            alt={details.businessName}
-            className="aspect-4/5 w-full object-cover transition-[filter] duration-300 dark:brightness-[0.72] dark:saturate-[0.9]"
-          />
-          <Sparkles className="absolute -right-1 -top-1 h-4 w-4 -rotate-2 text-white/80" />
+      {/* Side carousel — fixed to the same footprint as the pattern hero */}
+      <div
+        className="relative min-h-80 w-full overflow-hidden rounded-2xl shadow-xl sm:min-h-96 lg:flex-1"
+        onMouseEnter={() => setPaused(true)}
+        onMouseLeave={() => setPaused(false)}
+      >
+        {/* Image track — slides sideways, images always object-cover to fill */}
+        <div
+          className="absolute inset-0 flex transition-transform duration-700 ease-out"
+          style={{ transform: `translateX(-${index * 100}%)` }}
+        >
+          {images.map((src, i) => (
+            <img
+              key={i}
+              src={src}
+              alt={details.businessName}
+              className="h-full w-full shrink-0 object-cover transition-[filter] duration-300 dark:brightness-[0.72] dark:saturate-[0.9]"
+            />
+          ))}
         </div>
 
-        <div className="hidden shrink-0 -rotate-3 text-left font-hand text-store-fg sm:block">
-          <p className="text-xl font-semibold leading-[1.05] sm:text-2xl lg:text-3xl">
-            Same
-            <br />
-            Quality.
-            <br />
-            New
-            <br />
-            Finds.
-          </p>
-          <HandDrawnUnderline className="mt-1 h-2.5 w-14 text-store-fg lg:w-16" />
-        </div>
+        {/* Soft scrim for nav legibility */}
+        <div aria-hidden="true" className="pointer-events-none absolute inset-0 bg-black/10" />
+        <div aria-hidden="true" className="pointer-events-none absolute bottom-0 left-0 h-16 w-full bg-gradient-to-t from-black/35 to-transparent" />
+
+        {count > 1 && (
+          <>
+            <button
+              type="button"
+              onClick={() => go(-1)}
+              aria-label="Previous cover"
+              className="absolute left-2.5 top-1/2 z-10 grid h-8 w-8 -translate-y-1/2 place-items-center rounded-full bg-black/35 text-white backdrop-blur-sm transition-colors hover:bg-black/55"
+            >
+              <ArrowLeft size={15} />
+            </button>
+            <button
+              type="button"
+              onClick={() => go(1)}
+              aria-label="Next cover"
+              className="absolute right-2.5 top-1/2 z-10 grid h-8 w-8 -translate-y-1/2 place-items-center rounded-full bg-black/35 text-white backdrop-blur-sm transition-colors hover:bg-black/55"
+            >
+              <ArrowRight size={15} />
+            </button>
+          </>
+        )}
+
+        {/* Dots */}
+        {count > 1 && (
+          <div className="absolute bottom-2.5 left-1/2 z-10 flex -translate-x-1/2 items-center gap-1.5">
+            {images.map((_, i) => (
+              <button
+                key={i}
+                type="button"
+                onClick={() => setIndex(i)}
+                aria-label={`Go to cover ${i + 1}`}
+                className={`h-1.5 rounded-full transition-all duration-300 ${i === index ? 'w-4 bg-white' : 'w-1.5 bg-white/50'}`}
+              />
+            ))}
+          </div>
+        )}
       </div>
     </div>
   );
