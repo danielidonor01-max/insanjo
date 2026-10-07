@@ -38,7 +38,7 @@ function NavLink({ item, active, collapsed, onNavigate }) {
   const inner = (
     <>
       {active && !collapsed && (
-        <span className="absolute left-0 top-1/2 h-4 w-[2px] -translate-y-1/2 rounded-full bg-store-primary" />
+        <span className="absolute left-0 top-1/2 h-4 w-0.5 -translate-y-1/2 rounded-full bg-store-primary" />
       )}
       <Icon size={18} strokeWidth={active ? 2.1 : 1.75} className="shrink-0" />
       {!collapsed && <span className="truncate">{item.label}</span>}
@@ -63,7 +63,7 @@ function NavLink({ item, active, collapsed, onNavigate }) {
         <Tooltip.Content
           side="right"
           sideOffset={10}
-          className="z-[80] rounded-store-control border border-store-border bg-store-surface px-2.5 py-1.5 text-xs font-medium text-store-fg shadow-md"
+          className="z-80 rounded-store-control border border-store-border bg-store-surface px-2.5 py-1.5 text-xs font-medium text-store-fg shadow-md"
         >
           {item.label}
           <Tooltip.Arrow className="fill-store-surface" />
@@ -187,7 +187,7 @@ export default function Sidebar({ collapsed, onToggleCollapse, mobileOpen, onMob
             </Tooltip.Trigger>
             {collapsed && (
               <Tooltip.Portal>
-                <Tooltip.Content side="right" sideOffset={10} className="z-[80] rounded-store-control border border-store-border bg-store-surface px-2.5 py-1.5 text-xs font-medium text-store-fg shadow-md">
+                <Tooltip.Content side="right" sideOffset={10} className="z-80 rounded-store-control border border-store-border bg-store-surface px-2.5 py-1.5 text-xs font-medium text-store-fg shadow-md">
                   Expand sidebar
                   <Tooltip.Arrow className="fill-store-surface" />
                 </Tooltip.Content>
@@ -207,7 +207,7 @@ export default function Sidebar({ collapsed, onToggleCollapse, mobileOpen, onMob
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               onClick={onMobileClose}
-              className="fixed inset-0 z-[70] bg-black/40 backdrop-blur-sm lg:hidden"
+              className="fixed inset-0 z-70 bg-black/40 backdrop-blur-sm lg:hidden"
             />
             <motion.aside
               key="drawer-panel"
@@ -215,7 +215,7 @@ export default function Sidebar({ collapsed, onToggleCollapse, mobileOpen, onMob
               animate={{ x: 0 }}
               exit={{ x: "-100%" }}
               transition={{ type: "spring", damping: 28, stiffness: 260 }}
-              className="fixed inset-y-0 left-0 z-[75] flex w-72 max-w-[80vw] flex-col border-r border-store-border bg-store-surface px-4 py-5 lg:hidden"
+              className="fixed inset-y-0 left-0 z-75 flex w-72 max-w-[80vw] flex-col border-r border-store-border bg-store-surface px-4 py-5 lg:hidden"
             >
               <div className="flex items-center justify-between">
                 <BrandMark collapsed={false} />

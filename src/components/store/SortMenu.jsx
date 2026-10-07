@@ -33,7 +33,7 @@ export default function SortMenu({ value, onChange, hasPrices }) {
             <DropdownMenu.Item
               key={opt.value}
               onSelect={() => onChange(opt.value)}
-              className="flex cursor-pointer select-none items-center justify-between rounded-store-control px-3 py-2 text-sm text-store-muted-fg outline-none transition-colors data-[highlighted]:bg-store-surface-hover data-[highlighted]:text-store-fg"
+              className="flex cursor-pointer select-none items-center justify-between rounded-store-control px-3 py-2 text-sm text-store-muted-fg outline-none transition-colors data-highlighted:bg-store-surface-hover data-highlighted:text-store-fg"
             >
               {opt.label}
               {value === opt.value && <Check size={14} className="text-store-primary" />}

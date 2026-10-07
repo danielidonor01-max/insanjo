@@ -33,7 +33,7 @@ function HeroGlow() {
         style={{ background: "var(--pattern-cyan)", opacity: "var(--pattern-glow-opacity)" }}
       />
       <div
-        className="absolute -left-[10%] top-[10%] h-[60%] w-[40%] rounded-full blur-3xl"
+        className="absolute left-[-10%] top-[10%] h-[60%] w-[40%] rounded-full blur-3xl"
         style={{ background: "var(--pattern-royal)", opacity: "calc(var(--pattern-glow-opacity) * 0.5)" }}
       />
     </div>
@@ -215,7 +215,7 @@ function PhotoHero({ details }) {
 
         {/* Soft scrim for nav legibility */}
         <div aria-hidden="true" className="pointer-events-none absolute inset-0 bg-black/10" />
-        <div aria-hidden="true" className="pointer-events-none absolute bottom-0 left-0 h-16 w-full bg-gradient-to-t from-black/35 to-transparent" />
+        <div aria-hidden="true" className="pointer-events-none absolute bottom-0 left-0 h-16 w-full bg-linear-to-t from-black/35 to-transparent" />
 
         {count > 1 && (
           <>
