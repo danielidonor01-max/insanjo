@@ -1,0 +1,17 @@
+
+[
+  {
+    "relation": [
+      "delegate_permission/common.handle_all_urls"
+    ],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "com.lechi.insanjo",
+      "sha256_cert_fingerprints": [
+        "87:84:31:D0:30:3F:21:3A:A2:5F:9A:92:92:79:20:31:7C:B4:02:6F:80:6E",
+        "41:41:1E:54:4A:78:36:9F:25:F4:88:48:CE:85:7B:97:72:48:6D:38:2B:81:1C:FC:1B:B4:90:81:EB:6A:EC:FB",
+        "92:05:35:6D:64:99:33:12:AB:F8:A6:EC:B6:0E:28:46:7F:1F:F8:10:75:F2:C2:4C:33:C6:3E:B5:2A:E7:F8:05"
+      ]
+    }
+  }
+]
